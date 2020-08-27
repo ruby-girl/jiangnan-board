@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport"
+		content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+	<title>全国中药材资源查询系统</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css" />
+	<link rel="stylesheet" href="css/app.css" />
+	<script src="js/vue.js"></script>
+	<style>
+		.province-item {
+			line-height: 28px;
+		}
+
+		.province-title {
+			display: inline-block;
+			width: 103px;
+		}
+
+		.num-width {
+			display: inline-block;
+			width: 50px;
+		}
+
+		.tip-box {
+			width: 207px;
+			text-align: center;
+			padding-top: 50px;
+			margin: 0 auto;
+		}
+
+		.search {
+			width: 584px;
+			margin: 0 auto;
+			display: flex;
+			/*border: 1px solid red;*/
+		}
+
+		.search input {
+			float: left;
+			width: 584px;
+			height: 30px;
+			background: rgba(15, 69, 68, 1);
+			border: 1px solid rgba(20, 90, 81, 1);
+		}
+
+		.search img {
+			position: relative;
+			height: 20px;
+			width: 20px;
+			left: -24px;
+			top: 6px;
+			cursor: pointer;
+		}
+
+		.mouse-img {
+			margin-left: -12px;
+			margin-bottom: 12px;
+			animation: myfirst 2s infinite;
+		}
+
+		@keyframes myfirst {
+			0% {
+				transform: translate(0px, 0px);
+			}
+
+			50% {
+				transform: translate(0px, -10px);
+			}
+
+			100% {
+				transform: translate(0px, 0px);
+			}
+		}
+
+		input::-webkit-input-placeholder {
+			color: #59978C;
+			padding-left: 5px;
+		}
+
+		input:-moz-placeholder {
+			color: #59978C;
+			padding-left: 5px;
+		}
+
+		input:-ms-input-placeholder {
+			color: #59978C;
+			padding-left: 5px;
+		}
+
+		.search button:hover {
+			font-size: 16px;
+		}
+
+		.color-container {
+			width: 630px;
+			margin: 15px auto;
+		}
+
+		.color-box {
+			display: inline-block;
+			width: 30px;
+			height: 15px;
+			margin-left: 5px;
+		}
+
+		.area-item {
+			color: #fff;
+			font-size: 14px;
+		}
+
+		.color-label {
+			display: inline-block;
+			width: 72px;
+		}
+
+		.area-select {
+			width: 60px;
+			text-align: left;
+			line-height: 20px;
+		}
+
+		.area-select-title {
+			text-align: center;
+			font-size: 16px;
+		}
+	</style>
+</head>
+
+<body class="bg01">
+	<header class="header">
+		<h3>全 国 中 药 材 资 源 查 询 系 统</h3>
+	</header>
+	<div class="wrapper">
+		<div class="container-fluid">
+			<div class="row fill-h" id="container-y">
+				<div class="col-lg-3 fill-h">
+					<div class="xpanel-wrapper xpanel-wrapper-1">
+						<div class="xpanel">
+							<!-- 左侧 -->
+							<div class="fill-h">
+								<div class="title-bg">地区出产药材种类数量</div>
+								<!-- 所有地区 -->
+								<div>
+									<!-- 省级 -->
+									<div v-for="(item,i) in leftSortData" class="province-item">
+										<span class="province-title"><span class="num-width">NO.{{i+1}}</span>
+											{{item.province}}</span>
+										<span class="progressing"
+											v-bind:style="'width:' + (item.total/100)*100 +'%' "></span>
+										<span>{{item.total}}种</span>
+									</div>
+									<!-- 省级end -->
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div class="col-lg-6 fill-h">
+					<div class="xpanel-wrapper xpanel-wrapper-1">
+						<div class="xpanel display-flex flex-direction-column">
+							<div class="search">
+								<input v-model="inputValue" type="text" placeholder="请输入要搜索的药材名称"
+									@keyup.enter="changeMap" name="" id="" value="" />
+								<img @click="changeMap" src="./img/icon_search.png" alt="" srcset="">
+							</div>
+							<!-- 地图散点 -->
+							<div class="map-w-h" id="scatterMap"></div>
+							<!-- 道地药材显示 -->
+							<div class="flex-1" style="width:100%">
+								<div class="display-flex justify-content-flex-justify flex-wrap color-container">
+									<div class="area-item" v-for="(item,i) in areaData"><span
+											class="color-label">{{item.name}}</span><span class="color-box"
+											:style="{'background':item.color}"></span></div>
+								</div>
+							</div>
+							<!-- 公司信息 -->
+							<div class="company-bottom">
+								<div>本系统数据由第三方机构提供，仅供参考</div>
+								<div>Copyright All Rights Reserved四川本源数科科技有限公司</div>
+								<div>蜀ICP备***号</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 fill-h">
+					<div class="xpanel-wrapper xpanel-wrapper-3">
+						<div class="xpanel">
+							<!-- 右一-->
+							<div class="fill-h" id="provinceMap">
+								<div class="title-bg">地区出产药材种类数量</div>
+								<div class="row img-bg-height">
+									<div class="col-lg-6 fill-h">
+										<!-- 背景图+数字 -->
+										<div class="right-top-item">
+											<div>
+												<span class="bold-txt">29</span><span>个</span>
+											</div>
+											<div>产地</div>
+										</div>
+									</div>
+									<div class="col-lg-6 fill-h">
+										<!-- 背景图+数字 -->
+										<div class="right-top-item">
+											<div>
+												<span class="bold-txt">{{allDrugLength}}</span><span>种</span>
+											</div>
+											<div>药材</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="xpanel-wrapper xpanel-wrapper-3">
+						<div class="xpanel">
+							<!-- 城市地图 -->
+							<div class="fill-h" id="cityMap">
+								<div class="title-bg">药材搜索信息</div>
+								<!-- 没有搜索的布局 -->
+								<div class="tip-box" v-if="selectArea.length<1">
+									<div>提示！</div>
+									<div>请在界面上方的搜索栏中输入您想查询的中药材名称并点击搜索</div>
+								</div>
+								<div v-else>
+									<div class="area-select-title">【{{inputValue}}】</div>
+									<div class="display-flex flex-wrap">
+										<div class="area-select" v-for="item in selectArea">{{item.province}}</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="xpanel-wrapper xpanel-wrapper-3">
+						<div class="xpanel">
+							<!-- 区县地图 -->
+							<div class="fill-h" id="countyMap">
+								<div class="title-bg">地区出产药材种类信息</div>
+								<!-- 没有搜索的布局 -->
+								<div class="tip-box" v-if="!hoverData">
+									<img src="./img/icon_mouse.png" class="mouse-img" alt="">
+									<div>提示！</div>
+									<div>请将鼠标悬停于地图查询该地区出产的药材种类</div>
+								</div>
+								<div v-else>
+									<div class="area-select-title">【{{hoverData.province}}】</div>
+									<div>
+										{{hoverData.str}}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+
+	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="js/echarts-3.8.5.min.js"></script>
+	<script type="text/javascript" src="js/echarts-map-world.js"></script>
+	<script type="text/javascript" src="js/echarts-map-china.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: '#container-y',
+			data() {
+				return {
+					scatterMap: null,
+					areaData: [{ name: '关药产区', color: '#158288' }, { name: '北药产区', color: '#158288' }, { name: '怀药产区', color: '#3F938A' },
+					{ name: '浙药产区', color: '#55B2AD' }, { name: '江南药产区', color: '#61AFA7' }, { name: '川药产区', color: '#547E82' },
+					{ name: '云贵药产区', color: '#68958E' }, { name: '广药产区', color: '#B8D8D5' }, { name: '西药产区', color: '#45878D' }, { name: '藏药产区', color: '#729EA2' }],
+					inputValue: '',
+					datas: [],//json数据
+					selectArea: [],//搜索后筛选出的产区
+					saveHoverCode: '',
+					hoverData: null,//鼠标悬停的省
+					leftSortData: [],
+					allDrugLength: 0
+				}
+			},
+			created() {
+				let _this = this
+				$.getJSON('data/drug.json', function (geoJson) {
+					_this.datas = geoJson.data
+					let hasDrug = _this.datas.filter(item => {
+						return item.drug.length > 0
+					})
+					hasDrug.forEach(item => {
+						item.total = item.drug.length
+						_this.allDrugLength += item.drug.length
+					})
+					_this.leftSortData = hasDrug.sort((a, b) => { return b.total - a.total })
+				})
+			},
+			mounted() {
+				this.scatterMap = echarts.init(document.getElementById("scatterMap"));
+				//设置值，主要用来区分颜色
+				let data = [
+					{ "name": "北京", "value": 110, "code": 110000 },
+					{ "name": "天津", "value": 110, "code": 120000 },
+					{ "name": "河北", "value": 20, "code": 130000 },
+					{ "name": "山西", "value": 20, "code": 140000 },
+					{ "name": "内蒙古", "value": 20, "code": 150000 },
+					{ "name": "辽宁", "value": 10, "code": 210000 },
+					{ "name": "吉林", "value": 10, "code": 220000 },
+					{ "name": "黑龙江", "value": 10, "code": 230000 },
+					{ "name": "上海", "value": 110, "code": 310000 },
+					{ "name": "江苏", "value": 50, "code": 320000 },
+					{ "name": "浙江", "value": 40, "code": 330000 },
+					{ "name": "安徽", "value": 50, "code": 340000 },
+					{ "name": "福建", "value": 50, "code": 350000 },
+					{ "name": "江西", "value": 50, "code": 360000 },
+					{ "name": "山东", "value": 20, "code": 370000 },
+					{ "name": "河南", "value": 30, "code": 410000 },
+					{ "name": "湖北", "value": 50, "code": 420000 },
+					{ "name": "湖南", "value": 50, "code": 430000 },
+					{ "name": "广东", "value": 80, "code": 440000 },
+					{ "name": "广西", "value": 80, "code": 450000 },
+					{ "name": "海南", "value": 80, "code": 460000 },
+					{ "name": "四川", "value": 60, "code": 510000 },
+					{ "name": "贵州", "value": 70, "code": 520000 },
+					{ "name": "云南", "value": 70, "code": 530000 },
+					{ "name": "西藏", "value": 100, "code": 540000 },
+					{ "name": "重庆", "value": 110, "code": 500000 },
+					{ "name": "陕西", "value": 90, "code": 610000 },
+					{ "name": "甘肃", "value": 90, "code": 620000 },
+					{ "name": "青海", "value": 90, "code": 630000 },
+					{ "name": "宁夏", "value": 90, "code": 640000 },
+					{ "name": "新疆", "value": 90, "code": 650000 },
+					{ "name": "香港", "value": 110, "code": 810000 },
+					{ "name": "澳门", "value": 110, "code": 820000 },
+					{ "name": "台湾", "value": 110, "code": 830000 },
+				];
+				this.initMap(data)
+			},
+			methods: {
+				changeMap() {//搜索后显示
+					let arr = []
+					this.datas.map((item, i) => {
+						let itemArr = item.drug.findIndex(li => {
+							return li.name == this.inputValue
+						})
+						arr.push(itemArr)
+					})
+					this.selectArea = []
+					this.datas.map((a, b) => {
+						if (arr[b] !== -1) {
+							this.selectArea.push(a)
+						}
+					})
+					// 处理地图选中
+					let data = []
+					this.selectArea.map(item => {
+						let obj = {
+							name: item.province,
+							value: 12,
+							code: item.code
+						}
+						data.push(obj)
+					})
+					this.initMap(data)
+				},
+				initMap(data) {
+					let _this = this
+					//地图配置项
+					let sactterMapOpt = {
+						visualMap: {
+							show: false,//隐藏自带的颜色区分 显示
+							type: 'piecewise', // 类型为分段型
+							top: "bottom",
+							right: 10,
+							splitNumber: 6,
+							seriesIndex: [0],
+							itemWidth: 20, // 每个图元的宽度
+							itemGap: 2,    // 每两个图元之间的间隔距离，单位为px
+							pieces: [      // 自定义颜色
+								{ gte: 1, lte: 11, color: '#158288' },
+								{ gte: 12, lte: 21, color: '#158288' },
+								{ gte: 22, lte: 31, color: '#3F938A' },
+								{ gte: 32, lte: 41, color: '#55B2AD' },
+								{ gte: 42, lte: 51, color: '#61AFA7' },
+								{ gte: 52, lte: 61, color: '#547E82' },
+								{ gte: 62, lte: 71, color: '#68958E' },
+								{ gte: 72, lte: 81, color: '#B8D8D5' },
+								{ gte: 82, lte: 91, color: '#45878D' },
+								{ gte: 92, lte: 101, color: '#729EA2' },
+								{ gte: 102, lte: 111, color: '#aaa' }
+							]
+						},
+						tooltip: {
+							enterable: true,
+							trigger: 'item',
+							formatter: function (params) {
+								if (_this.saveHoverCode == params.data.code) {
+									return
+								} else {
+									_this.saveHoverCode = params.data.code
+									_this.getAreaDrug(_this.saveHoverCode)
+								}
+							}
+						},
+						geo: {
+							map: 'china',
+							roam: false, //开启鼠标缩放和漫游
+							zoom: 1, //地图缩放级别
+							selectedMode: false, //选中模式：single | multiple
+							left: 0,
+							right: 0,
+							// top: 0,
+							// bottom: 0,
+							//layoutCenter: ['1%', '1%'], //设置后left/right/top/bottom等属性无效
+							//layoutSize: '100%', //保持地图宽高比
+							label: {
+								emphasis: {
+									show: true,
+									textStyle: {
+										fontSize: 14,
+										color: '#fff'
+									}
+								},
+								normal: {
+									show: true,
+									textStyle: {
+										fontSize: 13,
+										color: "#fff"
+									}
+								}
+							}
+						
+
+						},
+						series: [{
+							type: 'map',
+							geoIndex: 0,
+							data: data
+						}]
+					};
+					//渲染报表
+					this.scatterMap.setOption(sactterMapOpt);
+					this.scatterMap.on('click', function (params) {
+						console.info('params', params)
+						window.location.href = 'infor.html?code=' + params.data.code;
+					})
+					window.onresize = function () {
+						_this.scatterMap.resize();
+					}
+				},
+				//根据鼠标悬停code获取该省的药材
+				getAreaDrug(code) {
+					let arr = this.datas.filter(item => {
+						return item.code == code
+					})
+					this.hoverData = arr[0]
+					let str = [];
+					this.hoverData.drug.map(item => {
+						str.push(item.name)
+					})
+					this.hoverData.str = str.join('、')
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>
