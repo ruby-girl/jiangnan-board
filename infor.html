@@ -277,16 +277,25 @@
                         this.scatterMap = echarts.init(document.getElementById("scatterMap"));
                         echarts.registerMap('北京', geoJson);
                         // 处理点
-
-                        var data = [
-                            { "name": " ", "value": "299" }
-                        ]
-                        var geoCoordMap = {
-                            ' ': [104.749376, 31.57684],
+                        var data=[],geoCoordMap=[];
+                        if (_this.code==510000) {
+                             data = [
+                                { "name": " ", "value": "299" }
+                            ]
+                             geoCoordMap = {
+                                ' ': [104.749376, 31.57684]
+                            }
+                        } else if (_this.code==420000) {
+                             data = [
+                                { "name": " ", "value": "298" }
+                            ]
+                             geoCoordMap = {
+                                ' ': [110.315985,31.474138]
+                            }
                         }
                         //获取数据和坐标
                         var convertData = function (data) {
-                            if (_this.code == 510000) {
+                            if (_this.code == 510000||_this.code == 420000) {
                                 var res = [];
                                 for (var i = 0; i < data.length; i++) {
                                     var geoCoord = geoCoordMap[data[i].name];
@@ -299,7 +308,7 @@
                                 }
                                 return res;
                             }
-
+                          
 
                         };
                         // 处理点 ********************end
@@ -329,8 +338,8 @@
                                     }
                                 },
                                 roam: false,
-                            //     left: 0,
-							//  right: 0,
+                                //     left: 0,
+                                //  right: 0,
                                 itemStyle: {
                                     normal: {
                                         areaColor: '#048855',
@@ -342,21 +351,21 @@
                                     }
                                 },
                                 label: {
-								emphasis: {
-									show: true,
-									textStyle: {
-										fontSize: 13,
-										color: '#FFFF00'
-									}
-								},
-								normal: {
-									show: true,
-									textStyle: {
-										fontSize: 12,
-										color: "#fff"
-									}
-								}
-							},
+                                    emphasis: {
+                                        show: true,
+                                        textStyle: {
+                                            fontSize: 13,
+                                            color: '#FFFF00'
+                                        }
+                                    },
+                                    normal: {
+                                        show: true,
+                                        textStyle: {
+                                            fontSize: 12,
+                                            color: "#fff"
+                                        }
+                                    }
+                                },
                                 layoutCenter: ['1%', '1%']
                             },
                             series: [{
@@ -392,13 +401,15 @@
 
                             }]
                         });
-                        this.scatterMap.on('click', function (params) {
+                        this.scatterMap.on('click', function (params) {                         
                             //写点击之后进行的操作
-                            if (params.data) {
-                                window.location.href = 'http://billboard.scddwb.com/';
+                            if (params.value&&params.value[2]=='299') {
+                                window.location.href = 'http://ddwb.scbysk.com/';
+                            }else if(params.value&&params.value[2]=='298'){
+                                window.location.href = 'http://snj.scbysk.com/';
                             }
                         })
-                        
+
                         window.onresize = function () {
                             _this.scatterMap.resize();
                         }
