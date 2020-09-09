@@ -3,468 +3,749 @@
 <html lang="zh-CN">
 
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport"
-		content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
-	<title>全国中药材资源查询系统</title>
-	<link rel="stylesheet" href="css/bootstrap.min.css" />
-	<link rel="stylesheet" href="css/app.css" />
-	<script src="js/vue.js"></script>
-	<style>
-		.province-item {
-			line-height: 28px;
-		}
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+    <title>江安柑橘</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="stylesheet" href="css/swiper-bundle.min.css">
+    <script src="js/vue.js"></script>
+    <style>
+        .info-map-height {
+            height: 60vh;
+        }
 
-		.province-title {
-			display: inline-block;
-			width: 103px;
-		}
+        .swiper-container {
+            width: 100%;
+            height: 100%;
+        }
 
-		.num-width {
-			display: inline-block;
-			width: 50px;
-		}
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
 
-		.tip-box {
-			width: 207px;
-			text-align: center;
-			padding-top: 50px;
-			margin: 0 auto;
-		}
+        .detection-swiper-container .swiper-slide {
+            height: 100%;
+            overflow: hidden;
+        }
 
-		.search {
-			width: 584px;
-			margin: 0 auto;
-			display: flex;
-			/*border: 1px solid red;*/
-		}
+        .detection-swiper-container .swiper-slide li {
+            width: 25%;
+            float: left;
+            margin: 16px 0;
+        }
 
-		.search input {
-			float: left;
-			width: 584px;
-			height: 30px;
-			background: rgba(15, 69, 68, 1);
-			border: 1px solid rgba(20, 90, 81, 1);
-		}
+        .detection-swiper-container .swiper-slide .detection-val {
+            font-size: 20px;
+            color: #00FBFF;
+            background-image: url("./imgs/pic1.png");
+            background-position: center bottom;
+            background-repeat: no-repeat;
+            height: 62px;
+            text-align: center;
+        }
 
-		.search img {
-			position: relative;
-			height: 20px;
-			width: 20px;
-			left: -24px;
-			top: 6px;
-			cursor: pointer;
-		}
+        .detection-swiper-container .swiper-slide .detection-name {
+            padding-left: 28px;
+            background-position: left center;
+            background-repeat: no-repeat;
+            height: 21px;
+            line-height: 21px;
+            margin-top: 10px;
+        }
 
-		.mouse-img {
-			margin-left: -12px;
-			margin-bottom: 12px;
-			animation: myfirst 2s infinite;
-		}
+        .detection-swiper-container .swiper-slide .unit {
+            font-size: 14px;
+        }
 
-		@keyframes myfirst {
-			0% {
-				transform: translate(0px, 0px);
-			}
+        .wrap {
+            height: calc(100% - 165px);
+            line-height: 20px;
+            overflow: hidden;
+            padding: 15px 0;
+        }
 
-			50% {
-				transform: translate(0px, -10px);
-			}
+        .wrap .text {
+            float: right;
+            margin-left: -5px;
+            width: 100%;
+            word-break: break-all;
+        }
 
-			100% {
-				transform: translate(0px, 0px);
-			}
-		}
+        .wrap::before {
+            float: left;
+            width: 5px;
+            content: '';
+            height: 40px;
+        }
 
-		input::-webkit-input-placeholder {
-			color: #59978C;
-			padding-left: 5px;
-		}
+        .wrap::after {
+            float: right;
+            /* content: "..."; */
+            content: "";
+            height: 20px;
+            line-height: 20px;
+            /* 为三个省略号的宽度 */
+            width: 3em;
+            /* 使盒子不占位置 */
+            margin-left: -3em;
+            /* 移动省略号位置 */
+            position: relative;
+            left: 100%;
+            bottom: -20px;
+            padding-right: 5px;
+        }
 
-		input:-moz-placeholder {
-			color: #59978C;
-			padding-left: 5px;
-		}
+        .company-img {
+            width: 100%;
+            height: 150px;
+        }
 
-		input:-ms-input-placeholder {
-			color: #59978C;
-			padding-left: 5px;
-		}
+        .drug-list {
+            width: 24%;
+            height: 30px;
+            line-height: 30px;
+            background: rgba(127, 202, 175, 0.5);
+            margin-right: 1.33%;
+            text-align: center;
+            margin-bottom: 1.33%;
+        }
 
-		.search button:hover {
-			font-size: 16px;
-		}
+        .display-flex .drug-list:nth-of-type(4n) {
+            margin-right: 0;
+        }
 
-		.color-container {
-			width: 630px;
-			margin: 15px auto;
-		}
 
-		.color-box {
-			display: inline-block;
-			width: 30px;
-			height: 15px;
-			margin-left: 5px;
-		}
+        .swiper-title {
+            background: #00AE61;
+            text-align: center;
+            line-height: 25px;
+        }
 
-		.area-item {
-			color: #fff;
-			font-size: 14px;
-		}
+        .swiper-label {
+            position: absolute;
+            left: -5px;
+            top: 5px;
+        }
 
-		.color-label {
-			display: inline-block;
-			width: 72px;
-		}
+        .monitor-select {
+            width: 100%;
+            height: 36px;
+            padding: 0 7px;
+            background: #0F2345;
+            border: 1px solid #00B0FF;
+            border-radius: 6px;
+            color: #00FBFF;
+            text-align: right;
+            margin-top: 6px;
+            box-shadow: inset 0 0 7px 0px rgba(18, 140, 254, 1);
+            outline: #0F2345;
+        }
 
-		.area-select {
-			width: 60px;
-			text-align: left;
-			line-height: 20px;
-		}
+        .video-height {
+            margin-top: 15px;
+            height: calc(100% - 80px);
+        }
 
-		.area-select-title {
-			text-align: center;
-			font-size: 16px;
-		}
-	</style>
+        .drug-info {
+            width: 100%;
+            text-align: center;
+            z-index: 5;
+            position: absolute;
+            top: 6px;
+        }
+
+        .drug-info li {
+            width: 217px;
+            height: 120px;
+            background-image: url(./imgs/bg1.png);
+            background-size: 100% 100%;
+            margin: 0 5px;
+            color: #E6FEF7;
+            font-size: 20px;
+            padding-top: 20px;
+            display: inline-block;
+        }
+
+        .drug-distribution {
+            height: 100%;
+            position: relative;
+        }
+
+        #cityMap {
+            height: 100%;
+        }
+    </style>
 </head>
 
 <body class="bg01">
-	<header class="header">
-		<h3>全 国 中 药 材 资 源 查 询 系 统</h3>
-	</header>
-	<div class="wrapper">
-		<div class="container-fluid">
-			<div class="row fill-h" id="container-y">
-				<div class="col-lg-3 fill-h">
-					<div class="xpanel-wrapper xpanel-wrapper-1">
-						<div class="xpanel">
-							<!-- 左侧 -->
-							<div class="fill-h">
-								<div class="title-bg">地区出产药材种类数量</div>
-								<!-- 所有地区 -->
-								<div>
-									<!-- 省级 -->
-									<div v-for="(item,i) in leftSortData" class="province-item">
-										<span class="province-title"><span class="num-width">NO.{{i+1}}</span>
-											{{item.province}}</span>
-										<span class="progressing"
-											v-bind:style="'width:' + (item.total/100)*100 +'%' "></span>
-										<span>{{item.total}}种</span>
-									</div>
-									<!-- 省级end -->
-								</div>
-							</div>
-						</div>
-					</div>
+    <header class="header">
+        <h3>宜宾江安柑橘大观园数字化管理平台</h3>
+    </header>
 
-				</div>
-				<div class="col-lg-6 fill-h">
-					<div class="xpanel-wrapper xpanel-wrapper-1">
-						<div class="xpanel display-flex flex-direction-column">
-							<div class="search">
-								<input v-model="inputValue" type="text" placeholder="请输入要搜索的药材名称"
-									@keyup.enter="changeMap" name="" id="" value="" />
-								<img @click="changeMap" src="./img/icon_search.png" alt="" srcset="">
-							</div>
-							<!-- 地图散点 -->
-							<div class="map-w-h" id="scatterMap"></div>
-							<!-- 道地药材显示 -->
-							<div class="flex-1" style="width:100%">
-								<div class="display-flex justify-content-flex-justify flex-wrap color-container">
-									<div class="area-item" v-for="(item,i) in areaData"><span
-											class="color-label">{{item.name}}</span><span class="color-box"
-											:style="{'background':item.color}"></span></div>
-								</div>
-							</div>
-							<!-- 公司信息 -->
-							<div class="company-bottom">
-								<div>本系统数据由第三方机构提供，仅供参考</div>
-								<div>Copyright All Rights Reserved四川本源数科科技有限公司</div>
-								<div>蜀ICP备20024953号-1</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 fill-h">
-					<div class="xpanel-wrapper xpanel-wrapper-3">
-						<div class="xpanel">
-							<!-- 右一-->
-							<div class="fill-h" id="provinceMap">
-								<div class="title-bg">地区出产药材种类数量</div>
-								<div class="row img-bg-height">
-									<div class="col-lg-6 fill-h">
-										<!-- 背景图+数字 -->
-										<div class="right-top-item">
-											<div>
-												<span class="bold-txt">29</span><span>个</span>
-											</div>
-											<div>产地</div>
-										</div>
-									</div>
-									<div class="col-lg-6 fill-h">
-										<!-- 背景图+数字 -->
-										<div class="right-top-item">
-											<div>
-												<span class="bold-txt">{{allDrugLength}}</span><span>种</span>
-											</div>
-											<div>药材</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="xpanel-wrapper xpanel-wrapper-3">
-						<div class="xpanel">
-							<!-- 城市地图 -->
-							<div class="fill-h" id="cityMap">
-								<div class="title-bg">药材搜索信息</div>
-								<!-- 没有搜索的布局 -->
-								<div class="tip-box" v-if="selectArea.length<1">
-									<div>提示！</div>
-									<div>请在界面上方的搜索栏中输入您想查询的中药材名称并点击搜索</div>
-								</div>
-								<div v-else>
-									<div class="area-select-title">【{{inputValue}}】</div>
-									<div class="display-flex flex-wrap">
-										<div class="area-select" v-for="item in selectArea">{{item.province}}</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="xpanel-wrapper xpanel-wrapper-3">
-						<div class="xpanel">
-							<!-- 区县地图 -->
-							<div class="fill-h" id="countyMap">
-								<div class="title-bg">地区出产药材种类信息</div>
-								<!-- 没有搜索的布局 -->
-								<div class="tip-box" v-if="!hoverData">
-									<img src="./img/icon_mouse.png" class="mouse-img" alt="">
-									<div>提示！</div>
-									<div>请将鼠标悬停于地图查询该地区出产的药材种类</div>
-								</div>
-								<div v-else>
-									<div class="area-select-title">【{{hoverData.province}}】</div>
-									<div>
-										{{hoverData.str}}</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	</div>
+    <div class="wrapper">
+        <div class="container-fluid">
+            <div class="row fill-h" id="container-y">
+                <div class="col-lg-3 fill-h">
+                    <div class="xpanel-wrapper xpanel-wrapper-2">
+                        <div class="xpanel">
+                            <!-- 左侧 -->
+                            <div class="fill-h"
+                                style="background-image:url('./imgs/index/bg_pingtaijianjie.png');background-size: 100% 100%;cursor: pointer;"
+                                @click="toCompany">
+                                <div class="title-bg">地区介绍</div>
+                                <!-- 所有地区 -->
+                                <div class="height-title">
+                                    <div class="company-img"
+                                        :style="{backgroundImage:'url('+introImg+')',backgroundRepeat:'no-repeat',backgroundSize:'cover',backgroundPosition:'center'}">
+                                    </div>
+                                    <div class="wrap">
+                                        <div class="text">{{enterpriseInfo.introName}}</div>
+                                    </div>
+                                </div>
 
-	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
-	<script type="text/javascript" src="js/echarts-3.8.5.min.js"></script>
-	<script type="text/javascript" src="js/echarts-map-world.js"></script>
-	<script type="text/javascript" src="js/echarts-map-china.js"></script>
-	<script type="text/javascript">
-		new Vue({
-			el: '#container-y',
-			data() {
-				return {
-					scatterMap: null,
-					areaData: [{ name: '关药产区', color: '#158288' }, { name: '北药产区', color: '#158288' }, { name: '怀药产区', color: '#3F938A' },
-					{ name: '浙药产区', color: '#55B2AD' }, { name: '江南药产区', color: '#61AFA7' }, { name: '川药产区', color: '#547E82' },
-					{ name: '云贵药产区', color: '#68958E' }, { name: '广药产区', color: '#B8D8D5' }, { name: '西药产区', color: '#45878D' }, { name: '藏药产区', color: '#729EA2' }],
-					inputValue: '',
-					datas: [],//json数据
-					selectArea: [],//搜索后筛选出的产区
-					saveHoverCode: '',
-					hoverData: null,//鼠标悬停的省
-					leftSortData: [],
-					allDrugLength: 0
-				}
-			},
-			created() {
-				let _this = this
-				$.getJSON('data/drug.json', function (geoJson) {
-					_this.datas = geoJson.data
-					let hasDrug = _this.datas.filter(item => {
-						return item.drug.length > 0
-					})
-					hasDrug.forEach(item => {
-						item.total = item.drug.length
-						_this.allDrugLength += item.drug.length
-					})
-					_this.leftSortData = hasDrug.sort((a, b) => { return b.total - a.total })
-				})
-			},
-			mounted() {
-				this.scatterMap = echarts.init(document.getElementById("scatterMap"));
-				//设置值，主要用来区分颜色
-				let data = [
-					{ "name": "北京", "value": 110, "code": 110000 },
-					{ "name": "天津", "value": 110, "code": 120000 },
-					{ "name": "河北", "value": 20, "code": 130000 },
-					{ "name": "山西", "value": 20, "code": 140000 },
-					{ "name": "内蒙古", "value": 20, "code": 150000 },
-					{ "name": "辽宁", "value": 10, "code": 210000 },
-					{ "name": "吉林", "value": 10, "code": 220000 },
-					{ "name": "黑龙江", "value": 10, "code": 230000 },
-					{ "name": "上海", "value": 110, "code": 310000 },
-					{ "name": "江苏", "value": 50, "code": 320000 },
-					{ "name": "浙江", "value": 40, "code": 330000 },
-					{ "name": "安徽", "value": 50, "code": 340000 },
-					{ "name": "福建", "value": 50, "code": 350000 },
-					{ "name": "江西", "value": 50, "code": 360000 },
-					{ "name": "山东", "value": 20, "code": 370000 },
-					{ "name": "河南", "value": 30, "code": 410000 },
-					{ "name": "湖北", "value": 50, "code": 420000 },
-					{ "name": "湖南", "value": 50, "code": 430000 },
-					{ "name": "广东", "value": 80, "code": 440000 },
-					{ "name": "广西", "value": 80, "code": 450000 },
-					{ "name": "海南", "value": 80, "code": 460000 },
-					{ "name": "四川", "value": 60, "code": 510000 },
-					{ "name": "贵州", "value": 70, "code": 520000 },
-					{ "name": "云南", "value": 70, "code": 530000 },
-					{ "name": "西藏", "value": 100, "code": 540000 },
-					{ "name": "重庆", "value": 110, "code": 500000 },
-					{ "name": "陕西", "value": 90, "code": 610000 },
-					{ "name": "甘肃", "value": 90, "code": 620000 },
-					{ "name": "青海", "value": 90, "code": 630000 },
-					{ "name": "宁夏", "value": 90, "code": 640000 },
-					{ "name": "新疆", "value": 90, "code": 650000 },
-					{ "name": "香港", "value": 110, "code": 810000 },
-					{ "name": "澳门", "value": 110, "code": 820000 },
-					{ "name": "台湾", "value": 110, "code": 830000 },
-				];
-				this.initMap(data)
-			},
-			methods: {
-				changeMap() {//搜索后显示
-					let arr = []
-					this.datas.map((item, i) => {
-						let itemArr = item.drug.findIndex(li => {
-							return li.name == this.inputValue
-						})
-						arr.push(itemArr)
-					})
-					this.selectArea = []
-					this.datas.map((a, b) => {
-						if (arr[b] !== -1) {
-							this.selectArea.push(a)
-						}
-					})
-					// 处理地图选中
-					let data = []
-					this.selectArea.map(item => {
-						let obj = {
-							name: item.province,
-							value: 12,
-							code: item.code
-						}
-						data.push(obj)
-					})
-					this.initMap(data)
-				},
-				initMap(data) {
-					let _this = this
-					//地图配置项
-					let sactterMapOpt = {
-						visualMap: {
-							show: false,//隐藏自带的颜色区分 显示
-							type: 'piecewise', // 类型为分段型
-							top: "bottom",
-							right: 10,
-							splitNumber: 6,
-							seriesIndex: [0],
-							itemWidth: 20, // 每个图元的宽度
-							itemGap: 2,    // 每两个图元之间的间隔距离，单位为px
-							pieces: [      // 自定义颜色
-								{ gte: 1, lte: 11, color: '#158288' },
-								{ gte: 12, lte: 21, color: '#158288' },
-								{ gte: 22, lte: 31, color: '#3F938A' },
-								{ gte: 32, lte: 41, color: '#55B2AD' },
-								{ gte: 42, lte: 51, color: '#61AFA7' },
-								{ gte: 52, lte: 61, color: '#547E82' },
-								{ gte: 62, lte: 71, color: '#68958E' },
-								{ gte: 72, lte: 81, color: '#B8D8D5' },
-								{ gte: 82, lte: 91, color: '#45878D' },
-								{ gte: 92, lte: 101, color: '#729EA2' },
-								{ gte: 102, lte: 111, color: '#aaa' }
-							]
-						},
-						tooltip: {
-							enterable: true,
-							trigger: 'item',
-							formatter: function (params) {
-								if (_this.saveHoverCode == params.data.code) {
-									return
-								} else {
-									_this.saveHoverCode = params.data.code
-									_this.getAreaDrug(_this.saveHoverCode)
-								}
-							}
-						},
-						geo: {
-							map: 'china',
-							roam: false, //开启鼠标缩放和漫游
-							zoom: 1, //地图缩放级别
-							selectedMode: false, //选中模式：single | multiple
-							left: 0,
-							right: 0,
-							// top: 0,
-							// bottom: 0,
-							//layoutCenter: ['1%', '1%'], //设置后left/right/top/bottom等属性无效
-							//layoutSize: '100%', //保持地图宽高比
-							label: {
-								emphasis: {
-									show: true,
-									textStyle: {
-										fontSize: 13,
-										color: '#fff'
-									}
-								},
-								normal: {
-									show: true,
-									textStyle: {
-										fontSize: 12,
-										color: "#fff"
-									}
-								}
-							}
-						
+                            </div>
+                        </div>
+                    </div>
+                    <div class="xpanel-wrapper xpanel-wrapper-2">
+                        <div class="xpanel">
+                            <!-- 左侧 -->
+                            <div class="fill-h"
+                                style="background-image:url('./imgs/index/bg_shishijiankong.png');background-size: 100% 100%;">
+                                <div class="title-bg">实时监控</div>
+                                <div class="height-title">
+                                    <select class="monitor-select right">
+                                        <option>黄龙寨</option>
+                                    </select>
+                                    <video id="myVideo" class="video-height" width="100%" ref="myPlayer" controls
+                                        :src="monitorVideo"></video>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 fill-h">
+                    <div class="xpanel-wrapper xpanel-wrapper-1">
+                        <div class="xpanel">
+                            <!-- 地图散点 -->
+                            <div style="height:60%">
+                                <div class="drug-distribution"
+                                    style="background-image:url('./imgs/index/bg_map.png');background-size: 100% 100%;padding:7px;overflow: hidden;position: relative;">
+                                    <ul class="drug-info oh">
+                                        <li>
+                                            <p class="number-imgs">
+                                                <span class="number" v-for="item in muNumberData"
+                                                    :class="'number'+item"></span>
+                                            </p>
+                                            <p>基地面积（亩)</p>
+                                        </li>
+                                        <li>
+                                            <p class="number-imgs">
+                                                <span class="number" v-for="item in tonNumberData"
+                                                    :class="'number'+item"></span>
+                                            </p>
+                                            <p>年产量（吨）</p>
+                                        </li>
+                                        <li>
+                                            <p class="number-imgs">
+                                                <span class="number" v-for="item in moneyNumberData"
+                                                    :class="'number'+item"></span>
+                                            </p>
+                                            <p>年产值（万元）</p>
+                                        </li>
+                                    </ul>
+                                    <div
+                                        style="height:100%;width:100%;border-top-left-radius: 15px;border-top-right-radius: 15px;overflow: hidden;">
+                                        <div class="map" ref="map" id="cityMap"></div>
+                                    </div>
 
-						},
-						series: [{
-							type: 'map',
-							geoIndex: 0,
-							data: data
-						}]
-					};
-					//渲染报表
-					this.scatterMap.setOption(sactterMapOpt);
-					this.scatterMap.on('click', function (params) {
-						console.info('params', params)
-						window.location.href = 'infor.html?code=' + params.data.code;
-					})
-					window.onresize = function () {
-						_this.scatterMap.resize();
-					}
-				},
-				//根据鼠标悬停code获取该省的药材
-				getAreaDrug(code) {
-					let arr = this.datas.filter(item => {
-						return item.code == code
-					})
-					this.hoverData = arr[0]
-					let str = [];
-					this.hoverData.drug.map(item => {
-						str.push(item.name)
-					})
-					this.hoverData.str = str.join('、')
-				}
-			}
-		})
-	</script>
+                                    <img class="award" src="./imgs/anim.png" alt="">
+                                </div>
+                            </div>
+                            <div
+                                style="height:40%;background-image:url('./imgs/index/bg_moisture.png');background-size: 100% 100%;position: relative;">
+                                <div class="title-bg">出产药材信息</div>
+                                <div class="height-title" ref="polygonal"></div>
+                                <img class="award-res" src="./imgs/anim.png" alt="">
+                            </div>
+                            <!-- 公司信息 -->
+                            <div class="company-bottom">
+                                <div>Copyright All Rights Reserved四川本源数科科技有限公司</div>
+                                <div>蜀ICP备20024953号-1</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 fill-h">
+                    <div class="xpanel-wrapper xpanel-wrapper-1">
+                        <div class="xpanel">
+                            <!-- 右一-->
+                            <div class="fill-h">
+                                <div
+                                    style="height:40%;background:url('./imgs/index/bg_ganjuzhanbi.png') center no-repeat;background-size: 100% 100%;">
+                                    <div class="title-bg right-title">柑橘收入占比</div>
+                                    <div class="height-title">
+                                        <img style="width:100%" src="./imgs/pic2.png" alt="">
+                                    </div>
+                                </div>
+                                <div
+                                    style="height:60%;background:url('./imgs/index/bg_qixiangshuju.png') center no-repeat;background-size: 100% 100%;">
+
+                                    <div class="title-bg right-title">气象数据</div>
+                                    <div class="height-title">
+                                        <!--swiper-->
+                                        <div class="swiper-container detection-swiper-container">
+                                            <div class="swiper-wrapper">
+                                                <ul class="swiper-slide">
+                                                    <li>
+                                                        <p class="detection-val">26<span class="unit">℃</span></p>
+                                                        <p class="detection-name icon-air">空气温度</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="detection-val">46<span class="unit">%</span></p>
+                                                        <p class="detection-name icon-airhumidity">空气湿度</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="detection-val">645<span class="unit">ppm</span></p>
+                                                        <p class="detection-name icon-co2">CO2浓度</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="detection-val">18<span class="unit">℃</span></p>
+                                                        <p class="detection-name icon-soiltemperature">土壤温度</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="detection-val">51<span class="unit">%</span></p>
+                                                        <p class="detection-name icon-soilhumidity">土壤温度</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="detection-val">33<span class="unit">us/cm</span></p>
+                                                        <p class="detection-name icon-es">土壤ES值</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="detection-val">10.0<span class="unit">mm</span></p>
+                                                        <p class="detection-name icon-rainfall">降雨量</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="detection-val">6.9<span class="unit"></span></p>
+                                                        <p class="detection-name icon-ph">土壤PH值</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="detection-val">557<span class="unit">lux</span></p>
+                                                        <p class="detection-name icon-lightintensity">光照强度</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="detection-val">33<span class="unit">us/cm</span></p>
+                                                        <p class="detection-name icon-windspeed">风速</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="detection-val">10.0<span class="unit">mm</span></p>
+                                                        <p class="detection-name icon-directionofthewind">风向</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="detection-val">6.9<span class="unit"></span></p>
+                                                        <p class="detection-name icon-atmosphericpressure">大气压强</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="detection-val">557<span class="unit">lux</span></p>
+                                                        <p class="detection-name icon-pm25">PM2.5</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="detection-val">33<span class="unit">us/cm</span></p>
+                                                        <p class="detection-name icon-pm10">PM10</p>
+                                                    </li>
+                                                </ul>
+                                                <ul class="swiper-slide">
+                                                    <li>
+                                                        <p class="detection-val">26<span class="unit">℃</span></p>
+                                                        <p class="detection-name icon-air">空气温度</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="detection-val">46<span class="unit">%</span></p>
+                                                        <p class="detection-name icon-airhumidity">空气湿度</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="detection-val">645<span class="unit">ppm</span></p>
+                                                        <p class="detection-name icon-co2">CO2浓度</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="detection-val">18<span class="unit">℃</span></p>
+                                                        <p class="detection-name icon-soiltemperature">土壤温度</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="detection-val">51<span class="unit">%</span></p>
+                                                        <p class="detection-name icon-soilhumidity">土壤温度</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="detection-val">33<span class="unit">us/cm</span></p>
+                                                        <p class="detection-name icon-es">土壤ES值</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="detection-val">10.0<span class="unit">mm</span></p>
+                                                        <p class="detection-name icon-rainfall">降雨量</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="detection-val">6.9<span class="unit"></span></p>
+                                                        <p class="detection-name icon-ph">土壤PH值</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="detection-val">557<span class="unit">lux</span></p>
+                                                        <p class="detection-name icon-lightintensity">光照强度</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="detection-val">33<span class="unit">us/cm</span></p>
+                                                        <p class="detection-name icon-windspeed">风速</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="detection-val">10.0<span class="unit">mm</span></p>
+                                                        <p class="detection-name icon-directionofthewind">风向</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="detection-val">6.9<span class="unit"></span></p>
+                                                        <p class="detection-name icon-atmosphericpressure">大气压强</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="detection-val">557<span class="unit">lux</span></p>
+                                                        <p class="detection-name icon-pm25">PM2.5</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="detection-val">33<span class="unit">us/cm</span></p>
+                                                        <p class="detection-name icon-pm10">PM10</p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <!-- Add Pagination -->
+                                            <div class="swiper-pagination"></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <!-- <script type="text/javascript" src="js/index.js"></script> -->
+    <script src="js/echarts-3.8.5.min.js"></script>
+    <script type="text/javascript" src="js/swiper/swiper-bundle.min.js"></script>
+    <script type="text/javascript"
+        src="https://webapi.amap.com/maps?v=1.4.15&key=b37218900009b3618f05afc6210f4dca"></script>
+    <script type="text/javascript">
+        new Vue({
+            el: '#container-y',
+            data() {
+                return {
+                    orgid: 139,
+                    enterpriseInfo: {},//公司简介
+                    introImg: '',//公司图片
+                    baseUrl: 'http://snj.scbysk.com/byapi',
+                    monitorVideo: '',
+                    muNumberData: [],
+                    tonNumberData: [],
+                    moneyNumberData: [],
+                    map: null,
+                    markers: [],
+                    plantInfo: {}
+                }
+            },
+            created() {
+                this.getBaseInfo()
+                this.baseDetailInfo()
+            },
+            mounted() {
+
+                let dataLeft = [22, 21, 24, 23.5, 25, 26, 26.5, 25.5, 24, 24.5,22, 23]
+                let dataRight = [60, 55, 67, 68, 70, 76, 75,72, 68, 65, 69,66]
+                let dataX = ['11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00']
+                this._drawPolygonal(dataLeft, dataRight, dataX)
+                this.initSwiper()
+            },
+            methods: {
+                toCompany() {
+                    window.location.href = 'company.html'
+                },
+                initSwiper() {
+                    new Swiper('.detection-swiper-container', {
+                        loop: true,
+                        autoplay: {
+                            delay: 3000,
+                        },
+                        spaceBetween: 1,
+                        pagination: {
+                            el: '.swiper-pagination',
+                            clickable: true,
+                        }
+                    });
+                },
+                getBaseInfo() {//公司信息
+                    $.get(this.baseUrl + '/api/largescreenindex/getBaseInfo', { orgid: this.orgid }, function (result) {
+                        console.info(result)
+                        this.enterpriseInfo = result.data;//公司简介
+
+                        if (this.enterpriseInfo.introImg != null) {
+                            this.introImg = this.enterpriseInfo.introImg.split(',')[0]
+                        }
+                    }.bind(this));
+                },
+                baseDetailInfo() {//地图数据
+                    $.get(this.baseUrl + '/api/largescreenindex/baseDetailInfo', { orgid: this.orgid }, function (result) {
+                        let totalAcreage = result.data.totalAcreage.toString();//种植信息-面积
+                        let totalYield = result.data.totalYield.toString();//种植信息-产量
+                        let totalProduction = result.data.totalProduction.toString();//种植信息-产值
+                        this.plantInfo = result.data;//种植信息
+                        this.getNumber(totalAcreage, 1);
+                        this.getNumber(totalYield, 2);
+                        this.getNumber(totalProduction, 3);
+                        let _this = this
+                        setTimeout(function () {
+                            _this.initMap()
+                        }, 1000)
+                    }.bind(this));
+                },
+                _drawPolygonal(dataLeft, dataRight, dataX) {
+                    let _this = this;
+                    let polygonalChart = echarts.init(this.$refs.polygonal, null, { devicePixelRatio: 2.5 });
+                    var colors = ["#0089FF", "#B865DF"];
+                    // 指定图表的配置项和数据
+                    var option = {
+                        color: colors,
+                        tooltip: {
+                            trigger: "axis",
+                            axisPointer: {
+                                type: "cross",
+                                crossStyle: {
+                                    color: "#fff"
+                                }
+                            }
+                        },
+                        legend: {
+                            show: true,
+                            data: ["大气温度", "土壤湿度"],
+                            y: 10,
+                            textStyle: {
+                                color: "#fff"
+                            }
+                        },
+                        xAxis: [
+                            {
+                                type: "category",
+                                data: dataX,
+                                boundaryGap: false,
+                                axisLine: {
+                                    show: false,
+
+                                    lineStyle: {
+                                        color: "#fff"
+                                    }
+                                },
+                                axisTick: {
+                                    show: false
+                                }
+                            }
+                        ],
+                        yAxis: [
+                            {
+                                type: "value",
+                                name: "温度：℃",
+                                position: "left",
+                                splitLine: { show: false },
+                                axisLine: {
+                                    show: false,
+
+                                    lineStyle: {
+                                        color: "#fff"
+                                    }
+                                },
+                                axisTick: {
+                                    show: false
+                                }
+                            },
+                            {
+                                type: "value",
+                                name: "湿度：%",
+                                position: "right",
+
+                                splitLine: { show: false },
+                                axisLine: {
+                                    show: false,
+
+                                    lineStyle: {
+                                        color: "#fff"
+                                    }
+                                },
+                                axisTick: {
+                                    show: false
+                                }
+                            }
+                        ],
+                        series: [
+                            
+                            {
+                                name: "大气温度",
+                                type: "line",
+                                barWidth: 20,
+                                data: dataLeft,
+                                yAxisIndex: 1,
+                                itemStyle: {
+                                    normal: {
+                                        color: '#97f2f7', //改变折线点的颜色
+                                        lineStyle: {
+                                            color: '#97f2f7' //改变折线颜色
+                                        }
+                                    }
+                                },
+                                areaStyle: { // 阴影渲染颜色渐变样式
+                                    normal: {
+                                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                            { offset: 0.5, color: '#97f2f7' },
+                                            { offset: 1, color: '#d0eff0' }
+                                        ])
+                                    }
+                                }
+                            },{
+                                name: "土壤湿度",
+                                type: "line",
+                                barWidth: 20,
+                                data: dataRight,
+                                yAxisIndex: 0,
+                                itemStyle: {
+                                    normal: {
+                                        color: '#5b7fc8', //改变折线点的颜色
+                                        lineStyle: {
+                                            color: '#5b7fc8' //改变折线颜色
+                                        }
+                                    }
+                                },
+                                    areaStyle: {
+                                        normal: {
+                                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                                { offset: 0.5, color: '#5b7fc8' },
+                                                { offset: 1, color: '#92a8d3' }
+                                            ])
+                                        }
+                                    } // 阴影渲染颜色渐变样式
+                                }
+                        ]
+                    };
+                    polygonalChart.setOption(option);
+                },
+                getNumber(number, index) {
+                    switch (index) {
+                        case 1:
+                            this.muNumberData = this.backNumber(number);
+                            break;
+                        case 2:
+                            this.tonNumberData = this.backNumber(number);
+                            break;
+                        case 3:
+                            this.moneyNumberData = this.backNumber(number);
+                            break;
+                        default:
+                            return;
+                    }
+                },
+                backNumber(str) {
+                    const arr = str.split('');
+                    let imgs = [];
+                    arr.map(item => {
+                        if (item == '.') {
+                            item = 'a'
+                        }
+                        imgs.push(item)
+                    })
+                    return imgs
+                },
+                initMap() {
+                    let that = this;
+
+                    // MapLoader().then(AMap => {
+                    let googleLayer = new AMap.TileLayer({
+                        getTileUrl:
+                            "http://mt{1,2,3,0}.google.cn/vt/lyrs=s&hl=zh-CN&gl=cn&x=[x]&y=[y]&z=[z]&s=Galile"
+                    }); //定义谷歌卫星切片图层
+
+                    let roadNetLayer = new AMap.TileLayer.RoadNet({
+                        opacity: 0
+                    }); //定义一个路网图层
+                    that.map = new AMap.Map(this.$refs.map, {
+                        resizeEnable: true,
+                        center: [110.671525 - 0.20, 31.744449 - 0.17],
+                        zooms: [10, 18],
+                        layers: [googleLayer, roadNetLayer], //设置图层
+                        // viewMode:'3D',
+                    });
+                    AMap.plugin(["AMap.DistrictSearch", "AMap.Marker"], function () {
+                        var district = new AMap.DistrictSearch({
+                            extensions: "all",
+                            subdistrict: 0
+                        });
+                        district.search("神农架林区", function (status, result) {
+                            // 外多边形坐标数组和内多边形坐标数组
+                            var bounds = result.districtList[0].boundaries;
+                            var outer = [
+                                new AMap.LngLat(-360, 90, true),
+                                new AMap.LngLat(-360, -90, true),
+                                new AMap.LngLat(360, -90, true),
+                                new AMap.LngLat(360, 90, true)
+                            ];
+                            var pathArray = [outer];
+                            pathArray.push.apply(pathArray, bounds);
+                            var polygon = new AMap.Polygon({
+                                path: pathArray,
+                                strokeColor: "#0AFBE2",
+                                strokeWeight: 1,
+                                fillColor: "#26374C",
+                                fillOpacity: 0.5
+                            });
+                            polygon.setPath(pathArray);
+                            that.map.add(polygon);
+                            var polygons = [];
+                            if (bounds) {
+                                for (var i = 0, l = bounds.length; i < l; i++) {
+                                    //生成行政区划polygon
+                                    var polygon1 = new AMap.Polygon({
+                                        map: that.map,
+                                        strokeWeight: 1,
+                                        path: bounds[i],
+                                        fillOpacity: 0,
+                                        fillColor: "#CCF3FF",
+                                        strokeColor: "#CC66CC"
+                                    });
+                                    polygons.push(polygon1);
+                                }
+                                // 地图自适应
+                                that.map.setFitView(polygons);
+                            }
+                        });
+
+                        that.plantInfo.baseInfo.map((item, index) => {
+                            let map_addr = JSON.parse(item.map_addr);
+                            let marker = new AMap.Marker({
+                                position: new AMap.LngLat(map_addr.path[0].lng, map_addr.path[0].lat),
+                                offset: new AMap.Pixel(-10, -10),
+                                content: '<div style="width:20px;height:28px"><img src="https://webapi.amap.com/theme/v1.3/markers/n/mark_bs.png"/></div>',
+                            });
+                            that.markers.push(marker);
+                            // that.map.add(marker);
+                            marker.setMap(that.map)
+                            marker.on("click", function (e) {
+                                window.location.href = 'land.html?baseId=' + item.baseId
+                            })
+                        })
+                    });
+                },
+            }
+        })
+        function toHome() {
+            window.history.back();
+        }
+    </script>
 </body>
 
 </html>

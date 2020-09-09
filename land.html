@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+    <title>江安柑橘</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="stylesheet" href="css/swiper-bundle.min.css">
+    <script src="js/vue.js"></script>
+    <style>
+        .info-map-height {
+            height: 60vh;
+        }
+
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .basic-info li {
+
+            overflow: hidden;
+        }
+
+        .basic-info-name {
+            display: block;
+            width: 135px;
+            float: left;
+        }
+
+        .basic-info,
+        .flag-title,
+        .honor-content {
+            font-size: 16px;
+        }
+
+        .basic-info li {
+            line-height: 32px;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        .basic-info-name {
+            float: left;
+        }
+
+        .basic-info-text {
+            display: block;
+            margin-left: 135px;
+        }
+
+        .wrap {
+            height: calc(100% - 165px);
+            line-height: 20px;
+            overflow: hidden;
+            padding: 15px 0;
+        }
+
+        .wrap .text {
+            float: right;
+            margin-left: -5px;
+            width: 100%;
+            word-break: break-all;
+        }
+
+        .wrap::before {
+            float: left;
+            width: 5px;
+            content: '';
+            height: 40px;
+        }
+
+        .wrap::after {
+            float: right;
+            /* content: "..."; */
+            content: "";
+            height: 20px;
+            line-height: 20px;
+            /* 为三个省略号的宽度 */
+            width: 3em;
+            /* 使盒子不占位置 */
+            margin-left: -3em;
+            /* 移动省略号位置 */
+            position: relative;
+            left: 100%;
+            bottom: -20px;
+            padding-right: 5px;
+        }
+
+        .company-img {
+            width: 100%;
+            height: 150px;
+        }
+
+        .drug-list {
+            width: 24%;
+            height: 30px;
+            line-height: 30px;
+            background: rgba(127, 202, 175, 0.5);
+            margin-right: 1.33%;
+            text-align: center;
+            margin-bottom: 1.33%;
+        }
+
+        .display-flex .drug-list:nth-of-type(4n) {
+            margin-right: 0;
+        }
+
+        .monitor-select {
+            width: 100%;
+            height: 36px;
+            padding: 0 7px;
+            background: #0F2345;
+            border: 1px solid #00B0FF;
+            border-radius: 6px;
+            color: #00FBFF;
+            text-align: right;
+            margin-top: 6px;
+            box-shadow: inset 0 0 7px 0px rgba(18, 140, 254, 1);
+            outline: #0F2345;
+        }
+
+        .video-height {
+            margin-top: 15px;
+            height: calc(100% - 80px);
+        }
+
+        .drug-info {
+            width: 100%;
+            text-align: center;
+            z-index: 5;
+            position: absolute;
+            top: 6px;
+        }
+
+        .drug-info li {
+            width: 217px;
+            height: 120px;
+            background-image: url(./imgs/bg1.png);
+            background-size: 100% 100%;
+            margin: 0 5px;
+            color: #E6FEF7;
+            font-size: 20px;
+            padding-top: 20px;
+            display: inline-block;
+        }
+
+        .drug-distribution {
+            height: 100%;
+            position: relative;
+        }
+
+        #cityMap {
+            height: 100%;
+        }
+
+        .base-map {
+            width: 40%;
+            display: inline-block;
+        }
+
+        .item-bg-y {
+            width: 49%;
+            background: url('../assets/new/bg1.png') no-repeat;
+            color: #b1fef6;
+            line-height: 30px;
+            font-size: 16px;
+            padding: 0 10px;
+        }
+
+        .myscroll {
+            width: 300px;
+            height: calc(100% - 15px);
+            line-height: 30px;
+            overflow: hidden;
+        }
+
+        .myscroll li {
+            height: 30px;
+        }
+
+        .barChar-box {
+            position: relative;
+            height: calc(100%);
+        }
+        .barChar{
+            height: calc(100%);
+        }
+        .barChar-instruct {
+            position: absolute;
+            top: 28px;
+            left: 16px;
+            font-size: 12px;
+        }
+
+        .barChar-instruct span {
+            display: inline-block
+        }
+
+        .barChar-instruct .violet {
+            margin-left: 27px;
+        }
+
+        .barChar-instruct .green {
+            margin-left: 24px;
+        }
+
+        .barChar-instruct .violet:before,
+        .barChar-instruct .green:before {
+            display: block;
+            content: '';
+            width: 20px;
+            height: 10px;
+            float: left;
+            border-radius: 2px;
+            margin-right: 10px;
+            margin-top: 5px;
+        }
+
+        .barChar-instruct .violet:before {
+            background: linear-gradient(0deg, rgba(60, 93, 250, 1), rgba(137, 160, 253, 1));
+        }
+
+        .barChar-instruct .green:before {
+            background: linear-gradient(0deg, rgba(14, 132, 197, 1), rgba(23, 198, 189, 1));
+        }
+    </style>
+</head>
+
+<body class="bg01">
+    <header class="header">
+        <h3>宜宾江安柑橘大观园数字化管理平台</h3>
+    </header>
+
+    <div class="wrapper">
+        <div class="container-fluid">
+            <div class="row fill-h" id="container-y">
+                <div class="col-lg-3 fill-h">
+                    <div class="xpanel-wrapper" style="height:25%">
+                        <div class="xpanel">
+                            <!-- 左侧 -->
+                            <div class="fill-h"
+                                style="background-image:url('./imgs/land/bg_jichuxinxi.png');background-size: 100% 100%;">
+                                <div class="title-bg">基础信息</div>
+                                <!-- 所有地区 -->
+                                <div class="height-title">
+                                    <ul class="basic-info">
+                                        <li>
+                                            <span class="basic-info-name">所在地区</span>
+                                            <span class="green-color basic-info-text">{{baseInfo.addr}}</span>
+                                        </li>
+                                        <li>
+                                            <span class="basic-info-name">基地名称</span>
+                                            <span class="green-color basic-info-text">{{baseInfo.name}}</span>
+                                        </li>
+                                        <li>
+                                            <span class="basic-info-name">栽培种类</span>
+                                            <p class="green-color basic-info-text">
+                                                <span v-for="(item,index) in baseInfo.breeds">{{item.name}}<i
+                                                        v-if="index!=baseInfo.breeds.length-1">、</i></span>
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <span class="basic-info-name">基地类型</span>
+                                            <span class="green-color basic-info-text">*******</span>
+                                        </li>
+                                        <li>
+                                            <span class="basic-info-name">基地面积</span>
+                                            <span class="green-color basic-info-text">{{baseInfo.acreage}}亩</span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="xpanel-wrapper" style="height:25%">
+                        <div class="xpanel">
+                            <!-- 左侧 -->
+                            <div class="fill-h"
+                                style="background-image:url('./imgs/land/bg_jidixiangguanrenyuan.png');background-size: 100% 100%;">
+                                <div class="title-bg">相关人员信息</div>
+                                <!-- 所有地区 -->
+                                <div class="height-title">
+                                    <div class="myscroll" id="scroll">
+                                        <ul>
+                                            <li class="base-item green-color" v-for="(item,m) in baseInfo.staff" :key="m+'c'"
+                                                v-if="hasStaff">
+                                                <span class="basic-info-name">{{item.name}}</span>
+                                                <p class="basic-info-text">
+                                                    <span v-for="(Roles,Rindex) in item.userRoles">{{Roles.name}}<i
+                                                            v-if="Rindex!=item.userRoles.length-1">、</i></span>
+                                                </p>
+                                            </li>
+                                            <div v-if="!hasStaff"
+                                                style="width:100%;padding-top:10px;text-align:center;color:#fff;">暂无数据
+                                            </div>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="xpanel-wrapper" style="height:50%">
+                        <div class="xpanel">
+                            <!-- 左侧 -->
+                            <div class="fill-h"
+                                style="background-image:url('./imgs/index/bg_shishijiankong.png');background-size: 100% 100%;">
+                                <div class="title-bg">实时监控</div>
+                                <div class="height-title">
+                                    <select class="monitor-select right">
+                                        <option>黄龙寨</option>
+                                    </select>
+                                    <video id="myVideo" class="video-height" width="100%" ref="myPlayer" controls
+                                        :src="monitorVideo"></video>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 fill-h">
+                    <div class="xpanel-wrapper xpanel-wrapper-1">
+                        <div class="xpanel">
+                            <!-- 地图散点 -->
+                            <div style="height:60%">
+                                <div class="drug-distribution"
+                                    style="background-image:url('./imgs/index/bg_map.png');background-size: 100% 100%;padding:7px;overflow: hidden;position: relative;">
+                                    <ul class="drug-info oh">
+                                        <li>
+                                            <p class="number-imgs">
+                                                <span class="number" v-for="item in muNumberData"
+                                                    :class="'number'+item"></span>
+                                            </p>
+                                            <p>基地面积（亩)</p>
+                                        </li>
+                                        <li>
+                                            <p class="number-imgs">
+                                                <span class="number" v-for="item in tonNumberData"
+                                                    :class="'number'+item"></span>
+                                            </p>
+                                            <p>年产量（吨）</p>
+                                        </li>
+                                        <li>
+                                            <p class="number-imgs">
+                                                <span class="number" v-for="item in moneyNumberData"
+                                                    :class="'number'+item"></span>
+                                            </p>
+                                            <p>年产值（万元）</p>
+                                        </li>
+                                    </ul>
+                                    <div
+                                        style="height:100%;width:100%;border-top-left-radius: 15px;border-top-right-radius: 15px;overflow: hidden;">
+                                        <div class="map" ref="map" id="cityMap"></div>
+                                    </div>
+                                    <img class="award" src="./imgs/anim.png" alt="">
+                                </div>
+                            </div>
+                            <div
+                                style="height:40%;background-image:url('./imgs/land/bg_zhongzhigongdan.png');background-size: 100% 100%;position: relative;">
+                                <div class="title-bg">种植工单</div>
+                                <div class="height-title">
+                                    <ul
+                                        style="position:relative;list-style:none;background:rgba(255,255,255,0.2);font-size:13px;line-height:30px;">
+                                        <li class="base-item display-flex justify-content-flex-center"
+                                            style="padding: 0 10px;">
+                                            <span
+                                                style="text-align: left;display:inline-block; width: 20%;color: #fff;">操作时间</span>
+                                            <span
+                                                style="text-align: center;display:inline-block; width: 20%;color: #fff;">农事操作</span>
+                                            <span
+                                                style="text-align: center;display:inline-block; width: 20%;color: #fff;">种植批次</span>
+                                            <span
+                                                style="color: #fff;display:inline-block; width: 20%;text-align: center;">投入品</span>
+                                            <span
+                                                style="color: #fff;display:inline-block; width: 20%;text-align: center;">操作照片</span>
+                                        </li>
+                                    </ul>
+                                    <div class="myscroll" id="scroll2">
+                                        <ul>
+                                            <li class="base-item" v-for="(item,m) in workOrder" :key="m+'c'"
+                                                v-if="hasOrder">
+
+                                                <span
+                                                    style="text-align: left;display:inline-block; width: 20%;color: #fff;">{{item.executiontime}}</span>
+                                                <span
+                                                    style="text-align: center;display:inline-block; width:20%;color: #fff;">{{item.executiontime}}</span>
+                                                <span
+                                                    style="text-align: center;display:inline-block; width:20%;color: #fff;">{{item.executiontime}}</span>
+                                                <span
+                                                    style="color: #fff;display:inline-block; width: 20%;text-align: center;">{{item.executiontime}}</span>
+                                                <span
+                                                    style="color: #fff;display:inline-block; width: 20%;text-align: center;">{{item.executiontime}}</span>
+                                            </li>
+                                            <div v-if="!hasOrder"
+                                                style="width:100%;padding-top:10px;text-align:center;color:#fff;">暂无数据
+                                            </div>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <img class="award-res" src="./imgs/anim.png" alt="">
+                            </div>
+                            <!-- 公司信息 -->
+                            <div class="company-bottom">
+                                <div>Copyright All Rights Reserved四川本源数科科技有限公司</div>
+                                <div>蜀ICP备20024953号-1</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 fill-h">
+                    <div class="xpanel-wrapper xpanel-wrapper-1">
+                        <div class="xpanel">
+                            <!-- 右一-->
+                            <div class="fill-h">
+                                <div style="height:33.3%;background-image:url('./imgs/land/bg_turangjiance.png');background-size: 100% 100%;">
+                                    <div class="title-bg right-title">土壤检测</div>
+                                    <div class="height-title">
+                                        <div class="barChar-box">
+                                            <div class="barChar-instruct">
+                                                <span>检测量（mg/kg）</span>
+                                                <span class="violet">检测值</span>
+                                                <span class="green">国家标准max</span>
+                                            </div>
+                                            <div class="barChar" ref="soilDetection"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="height:33.3%;background-image:url('./imgs/land/bg_turangjiance.png');background-size: 100% 100%;">
+                                    <div class="title-bg right-title">大气检测</div>
+                                    <div class="height-title">
+                                        <div class="barChar-box">
+                                            <div class="barChar-instruct">
+                                                <span>检测量（mg/kg）</span>
+                                                <span class="violet">检测值</span>
+                                                <span class="green">国家标准max</span>
+                                            </div>
+                                            <div class="barChar" ref="gasDetection"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="height:33.3%;background-image:url('./imgs/land/bg_turangjiance.png');background-size: 100% 100%;">
+                                    <div class="title-bg right-title">水源检测</div>
+                                    <div class="height-title">
+                                        <div class="barChar-box">
+                                            <div class="barChar-instruct">
+                                                <span>检测量（mg/kg）</span>
+                                                <span class="violet">检测值</span>
+                                                <span class="green">国家标准max</span>
+                                            </div>
+                                            <div class="barChar" ref="waterDetection"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script src="js/echarts-3.8.5.min.js"></script>
+    <script src="js/scroll.js"></script>
+    <script type="text/javascript"
+        src="https://webapi.amap.com/maps?v=1.4.15&key=b37218900009b3618f05afc6210f4dca"></script>
+    <script type="text/javascript">
+        new Vue({
+            el: '#container-y',
+            data() {
+                return {
+                    orgid: 139,
+                    baseId: '',
+                    monitorVideo: '',
+                    baseUrl: 'http://snj.scbysk.com/byapi',
+                    baseInfo: {},
+                    muNumberData: [],
+                    tonNumberData: [],
+                    moneyNumberData: [],
+                    expertData: [],//专家团队
+                    map: null,
+                    coords: [],
+                    workOrder: [],
+                    hasStaff: false,
+                    hasOrder: false,
+                    barSoil: {
+                        xData: ['镍', '锌', '铜', '总铬', '铅', '镉', '总砷', '总汞', '六六', 'DDT'],
+                        yData: { min: 0, interval: 50, max: 300, },
+                        valData: {
+                            detection: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
+                            standard: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
+                        }
+                    },
+                    barGas: {
+                        xData: ['总悬浮颗粒物', '二氧化塘', '二氧化硫'],
+                        yData: { min: 0, interval: 0.03, max: 0.18, },
+                        valData: {
+                            detection: [0.02, 0.05, 0.04],
+                            standard: [0.03, 0.13, 0.06]
+                        }
+                    },
+                    barWater: {
+                        xData: ['总大\n肠菌群', '蛔虫\n卵数', '铅', '镉', '砷', '汞', '铬\n(六价)', '硫化\n物', '氯化\n物', '化学\n需氧量'],
+
+                        yData: { min: 0, interval: 2, max: 12 },
+                        valData: {
+                            detection: [0.7, 1, 0.8, 0.5, 0.75, 1, 1.2, 0.6, 6, 5],
+                            standard: [1, 1, 1, 0.8, 1, 1.2, 1, 1, 8, 4]
+                        }
+                    },
+                }
+            },
+            created() {
+                this.baseId = this.GetQueryValue('baseId')
+
+                this.baseDetailInfo()
+                this.getworkOrder()
+            },
+            mounted() {
+
+                //土壤检测
+                this.initBar('soilDetection', this.barSoil);
+                //大气检测
+                this.initBar('gasDetection', this.barGas);
+                //水源检测
+                this.initBar('waterDetection', this.barWater)
+
+            },
+            methods: {
+                initBar(ref, barData) {
+                    const that = this;
+                    let myCharts = echarts.init(that.$refs[ref]);
+                    let option = {
+                        color: ['#89A0FD', '#17C6BD'],
+                        xAxis: [
+                            {
+                                type: 'category',
+                                data: barData.xData,
+                                axisPointer: {
+                                    type: 'shadow',
+                                },
+                                axisLabel: {
+                                    interval: 0,
+                                    textStyle: {
+                                        color: "#fff"
+                                    }
+                                },
+                                axisLine: {
+                                    lineStyle: {
+                                        color: 'rgba(0,0,0,0)',
+                                        width: 2
+                                    }
+                                }
+                            }
+                        ],
+                        yAxis: [
+                            {
+                                min: barData.yData.min,
+                                max: barData.yData.max,
+                                interval: barData.yData.interval,
+                                axisLabel: {
+                                    formatter: '{value}',
+                                    textStyle: {
+                                        color: "#fff"
+                                    }
+                                },
+                                axisLine: {//线条
+                                    lineStyle: {
+                                        color: 'rgba(0,0,0,0)',
+                                        width: 2
+                                    }
+                                },
+                                splitLine: {
+                                    show: true,
+                                    lineStyle: {
+                                        color: 'rgba(0,0,0,0)'
+                                    }
+                                }
+                            }
+
+                        ],
+                        series: [
+                            {
+                                name: '检测值',
+                                type: 'bar',
+                                data: barData.valData.detection,
+                                itemStyle: {
+                                    normal: {
+                                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                            offset: 0,
+                                            color: '#89A0FD'
+                                        }, {
+                                            offset: 1,
+                                            color: '#011F27'
+                                        }])
+                                    }
+                                },
+
+                            },
+
+                            {
+                                name: '国家标准max',
+                                type: 'bar',
+                                data: barData.valData.standard,
+                                itemStyle: {
+                                    normal: {
+                                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                            offset: 0,
+                                            color: '#17C6BD'
+                                        }, {
+                                            offset: 1,
+                                            color: '#011F27'
+                                        }])
+
+                                    }
+                                },
+                            },
+                        ]
+                    }
+                    myCharts.setOption(option);
+                },
+
+                baseDetailInfo() {//地图数据
+                    $.get(this.baseUrl + '/api/largescreenindex/baseInfo/' + this.baseId + '/' + this.orgid, function (res) {
+                        this.baseInfo = res.data;
+                        let map_addr = JSON.parse(res.data.map_addr).path;
+                        let add = [];
+                        map_addr.map(item => {
+                            add = [item.lng, item.lat]
+                            this.coords.push(add)
+                        })
+
+                        this.initMap();
+                        this.getNumber(res.data.acreage.toString(), 1);
+                        this.getNumber(res.data.totalYield.toString(), 2);
+                        this.getNumber(res.data.totalProduction.toString(), 3);
+                        if (this.baseInfo.staff.length > 0) {
+                            this.hasStaff = true
+                            $('#scroll').myScroll({
+                                speed: 30, //数值越大，速度越慢
+                                rowHeight: 30 //li的高度
+                            });
+                        }
+                    }.bind(this));
+                },
+                getworkOrder() {//工单
+                    $.get(this.baseUrl + '/api/largescreenindex/getworkOrder/', { baseId: this.baseId }, function (res) {
+                        this.workOrder = res.data;
+                        console.info('this.hasOrder', this.hasOrder)
+                        if (this.workOrder.length > 0) {
+                            this.hasOrder = true
+                            $('#scroll2').myScroll({
+                                speed: 30, //数值越大，速度越慢
+                                rowHeight: 30 //li的高度
+                            });
+                        }
+                    }.bind(this));
+                },
+                _drawPolygonal(dataLeft, dataRight) {
+                    let _this = this;
+                    let polygonalChart = echarts.init(this.$refs.polygonal, null, { devicePixelRatio: 2.5 });
+                    var colors = ["#0089FF", "#B865DF"];
+                    // 指定图表的配置项和数据
+                    var option = {
+                        color: colors,
+                        tooltip: {
+                            trigger: "axis",
+                            axisPointer: {
+                                type: "cross",
+                                crossStyle: {
+                                    color: "#fff"
+                                }
+                            }
+                        },
+                        legend: {
+                            show: false,
+                            data: ["贷款金额", "贷款人数"],
+                            y: 10,
+                            textStyle: {
+                                color: "#fff"
+                            }
+                        },
+                        xAxis: [
+                            {
+                                type: "category",
+                                data: ["订单贷", "劳务贷", "农资贷", '保险贷'],
+                                boundaryGap: false
+
+                            }
+                        ],
+                        yAxis: [
+                            {
+                                type: "value",
+                                name: "温度：℃",
+                                position: "left",
+                                splitLine: { show: false },
+                                axisLine: {
+                                    show: true,
+
+                                    lineStyle: {
+                                        color: "#fff"
+                                    }
+                                },
+                                axisLabel: {
+                                    show: true,
+                                    showMinLabel: true,
+                                    showMaxLabel: true,
+                                    formatter: "{value}"
+                                }
+                            },
+                            {
+                                type: "value",
+                                name: "湿度：%",
+                                position: "right",
+
+                                splitLine: { show: false },
+                                axisLine: {
+                                    show: true,
+                                    lineStyle: {
+                                        color: "#fff"
+                                    }
+                                },
+                                axisLabel: {
+                                    show: true,
+                                    showMinLabel: true,
+                                    showMaxLabel: true,
+                                    formatter: "{value}"
+                                }
+                            }
+                        ],
+                        series: [
+                            {
+                                name: "贷款金额",
+                                type: "line",
+                                barWidth: 20,
+                                data: dataLeft,
+                                yAxisIndex: 0,
+                                areaStyle: {
+                                    normal: {
+                                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                            { offset: 0.5, color: '#41A4FF' },
+                                            { offset: 1, color: '#eeeeee' }
+                                        ])
+                                    }
+                                } // 阴影渲染颜色渐变样式
+                            },
+                            {
+                                name: "贷款人数",
+                                type: "line",
+                                barWidth: 20,
+                                data: dataRight,
+                                yAxisIndex: 1,
+                                areaStyle: { // 阴影渲染颜色渐变样式
+                                    normal: {
+                                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                            { offset: 0.5, color: '#41A4FF' },
+                                            { offset: 1, color: '#eeeeee' }
+                                        ])
+                                    }
+                                }
+                            }
+                        ]
+                    };
+                    polygonalChart.setOption(option);
+                },
+                getNumber(number, index) {
+                    switch (index) {
+                        case 1:
+                            this.muNumberData = this.backNumber(number);
+                            break;
+                        case 2:
+                            this.tonNumberData = this.backNumber(number);
+                            break;
+                        case 3:
+                            this.moneyNumberData = this.backNumber(number);
+                            break;
+                        default:
+                            return;
+                    }
+                },
+                backNumber(str) {
+                    const arr = str.split('');
+                    let imgs = [];
+                    arr.map(item => {
+                        if (item == '.') {
+                            item = 'a'
+                        }
+                        imgs.push(item)
+                    })
+                    return imgs
+                },
+                initMap() {
+                    let that = this;
+                    // MapLoader().then(AMap => {
+                    let googleLayer = new AMap.TileLayer({
+                        getTileUrl:
+                            "http://mt{1,2,3,0}.google.cn/vt/lyrs=s&hl=zh-CN&gl=cn&x=[x]&y=[y]&z=[z]&s=Galile"
+                    }); //定义谷歌卫星切片图层
+
+                    let roadNetLayer = new AMap.TileLayer.RoadNet({
+                        opacity: 0
+                    }); //定义一个路网图层
+                    that.map = new AMap.Map(that.$refs.map, {
+                        center: that.coords[0],
+                        zooms: [8, 16],
+                        layers: [googleLayer, roadNetLayer]
+                    });
+                    AMap.plugin("AMap.DistrictSearch", function () {
+                        var district = new AMap.DistrictSearch({
+                            extensions: "all",
+                            subdistrict: 0
+                        });
+                        district.search("神农架林区", function (status, result) {
+                            // 外多边形坐标数组和内多边形坐标数组
+                            var bounds = result.districtList[0].boundaries;
+                            var outer = [
+                                new AMap.LngLat(-360, 90, true),
+                                new AMap.LngLat(-360, -90, true),
+                                new AMap.LngLat(360, -90, true),
+                                new AMap.LngLat(360, 90, true)
+                            ];
+
+
+                            var pathArray = [outer];
+                            pathArray.push.apply(pathArray, bounds);
+                            var polygon = new AMap.Polygon({
+                                path: pathArray,
+                                strokeColor: "#0AFBE2",
+                                strokeWeight: 1,
+                                fillColor: "#26374C",
+                                fillOpacity: 0.5
+                            });
+                            polygon.setPath(pathArray);
+                            that.map.add(polygon);
+                            var polygons = [];
+                            if (bounds) {
+                                for (var i = 0, l = bounds.length; i < l; i++) {
+                                    //生成行政区划polygon
+                                    var polygon1 = new AMap.Polygon({
+                                        map: that.map,
+                                        path: that.coords,
+                                        // strokeColor: "#09f",
+                                        strokeWeight: 0,
+                                        strokeOpacity: 0.2,
+                                        fillOpacity: 0.4,
+                                        zIndex: 50,
+                                        fillColor: "#CCF3FF",
+                                        strokeColor: "#CC66CC"
+                                    });
+                                    polygons.push(polygon1);
+                                }
+                                // 地图自适应
+                                that.map.setFitView(polygons);
+                            }
+                            // if (bounds) {
+                            //   for (var i = 0, l = bounds.length; i < l; i++) {
+                            //     //生成行政区划polygon
+                            //     var polygon1 = new AMap.Polygon({
+                            //       map: that.map,
+                            //       strokeWeight: 1,
+                            //       path: bounds[i],
+                            //       fillOpacity: 0,
+                            //       fillColor: "#CCF3FF",
+                            //       strokeColor: "#CC66CC"
+                            //     });
+                            //     polygons.push(polygon1);
+                            //   }
+                            //   // 地图自适应
+                            //   that.map.setFitView(polygons);
+                            // }
+                        });
+                        that.map.on("complete", function () {
+                            console.log("地图加载完成！");
+                            var myEvent = new CustomEvent("done1", {});
+                            if (window.dispatchEvent) {
+                                window.dispatchEvent(myEvent);
+                            } else {
+                                window.fireEvent(myEvent);
+                            }
+                        });
+                    });
+                    // });
+
+
+                },
+                GetQueryValue(queryName) {
+                    var query = decodeURI(window.location.search.substring(1));
+                    var vars = query.split("&");
+                    for (var i = 0; i < vars.length; i++) {
+                        var pair = vars[i].split("=");
+                        if (pair[0] == queryName) { return pair[1]; }
+                    }
+                    return null;
+                }
+
+            }
+        })
+        function toHome() {
+            window.history.back();
+        }
+    </script>
+</body>
+
+</html>

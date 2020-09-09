@@ -9,7 +9,9 @@ html, body {
 	height:100%;
 	min-height:635px;
 	font-family:"microsoft yahei", arial, sans-serif;
-	background-color:#0f1c30;
+	font-size: 16px !important;
+	
+background-color:#061422;
 	background-repeat:no-repeat;
 	background-position:center;
 	background-size:100% 100%;
@@ -17,7 +19,7 @@ html, body {
 	overflow-y:auto;
 	color:#fff;
 }
-body.bg01 {background-image:url("../img/bg01.png");}
+body.bg01 {background-image:url("../imgs/bg.png");}
 body.bg02 {background-image:url("../img/bg02.png");}
 body.bg03 {background-image:url("../img/bg03.png");}
 body.bg04 {background-image:url("../img/bg04.png");}
@@ -26,7 +28,7 @@ body.bg04 {background-image:url("../img/bg04.png");}
 	width:100%;
 	height:111px;
 	max-width:1920px;
-	background:url("../img/header.png") center no-repeat;
+	background:url("../imgs/title.png") center no-repeat;
 }
 .header h3 {
 	/* font-family:MF LangQian (Noncommercial); */
@@ -42,21 +44,28 @@ body.bg04 {background-image:url("../img/bg04.png");}
 .container-fluid {height:100%;min-height:100%;}
 .row {margin-left:-7px;margin-right:-8px;}
 .row>div {padding-left:7px;padding-right:8px;}
-.xpanel-wrapper {padding-bottom:15px;box-sizing:border-box;}
+.xpanel-wrapper {box-sizing:border-box;}
 .xpanel-wrapper-1 {height:100%;}
 .xpanel-wrapper-2 {height:50%;}
 .xpanel-wrapper-3 {height:33.33333%;}
 .xpanel-wrapper-4 {height:35%;}
+
 .xpanel-wrapper-6 {height:65%;}
 .xpanel {
-	padding:15px;
 	height:100%;
 	min-height:170px;
 	box-sizing:border-box;
 }
-
+.green-color {
+    color: #0afbe2;
+}
 /* tool */
-.fill-h {height:100%;min-height:100%;}
+.fill-h {height:100%;min-height:100%;
+}
+.box-bg{
+	background:url("../imgs/bg_real-timemonitoring.png") center no-repeat;
+	background-size: 100% 100%;
+}
 .no-margin {margin:0 !important;}
 .no-padding {padding:0 !important;}
 
@@ -168,13 +177,16 @@ body.bg04 {background-image:url("../img/bg04.png");}
 	width:100%;
 height:36px;
 line-height: 33px;
-background:rgba(255,255,255,0.1);
-font-size:16px;
+/* background:rgba(255,255,255,0.1); */
+font-size:18px;
 font-family:Source Han Sans CN;
-font-weight:400;
+font-weight:bold;
 color:rgba(255,255,255,1);
-text-align: center;
+text-align: left;
+padding-top:5px;
+padding-left:15px;
 margin-bottom:15px;
+text-shadow: 2px 2px 3px #0187b3, -2px 2px 4px #0187b3, 2px -2px 4px #0187b3, -2px -2px 4px #0187b3;
 }
 /* 进度条 */
 /* .progress {
@@ -200,13 +212,14 @@ margin-bottom:15px;
   .progress .progressing .percentage {
 	margin-left: 50px;
   }
-  .img-bg-height{
+  .height-title{
 	  height:calc(100% - 50px); 
+	  padding:0 15px;
   }
   .right-top-item{
 	  width:100%;
 	  height:100%;
-	  background:url("../img/bg1.png") center no-repeat;
+	  /* background:url("../img/bg1.png") center no-repeat; */
 	  background-size: 100%;
 	  display: flex;
 	  flex-direction: column;
@@ -222,14 +235,115 @@ margin-bottom:15px;
 	  height:70vh;
   }
   .company-bottom {
-	position: fixed;
+	/* position: fixed; */
 	font-size: 12px;
-	width: 33.33%;
+	width: 100%;
 	left: 33.33%;
-	bottom: 10px;
+	bottom: 0;
 	text-align: center;
+	padding-bottom: 5px;
 }
 .no-data{
 	padding-top:20px;
 	text-align: center;
 }
+.number-imgs .number {
+	display: inline-block;
+	width: 16px;
+	height: 38px;
+	background-position: center center;
+	background-repeat: no-repeat;
+	margin: 0 1px;
+}
+
+.number3 {
+	background-image: url("../imgs/3.png");
+}
+
+.number1 {
+	background-image: url("../imgs/1.png");
+}
+
+.number0 {
+	background-image: url("../imgs/0.png");
+}
+
+.number2 {
+	background-image: url("../imgs/2.png");
+}
+
+.number-imgs .numbera {
+	background-image: url("../imgs/a.png");
+	margin: 0 0px;
+}
+
+.number4 {
+	background-image: url("../imgs/4.png");
+}
+
+.number5 {
+	background-image: url("../imgs/5.png");
+}
+
+.number6 {
+	background-image: url("../imgs/6.png");
+}
+
+.number7 {
+	background-image: url("../imgs/7.png");
+}
+
+.number8 {
+	background-image: url("../imgs/8.png");
+}
+
+.number9 {
+	background-image: url("../imgs/9.png");
+}
+.right-title{
+	text-align: right;
+	padding-right:15px;
+}
+.award {
+	position: absolute;
+	bottom: 0px;
+	left: 10px;
+   -webkit-animation: move 5s infinite;
+	animation: move 5s infinite;
+}
+.award-res {
+	position: absolute;
+	bottom: 0px;
+	left: 10px;
+	transform: rotate(180deg);
+   -webkit-animation: move 5s infinite;
+	animation: turn 5s infinite;
+}
+@-webkit-keyframes move {
+	0%   {left: 0%;}
+	50%{
+		opacity: 1;
+	}
+	100%  {left: 95%;opacity: 0;}
+ }
+@keyframes move {
+	0%   {left: 0%;}
+	50%{
+		opacity: 1;
+	}
+	100%  {left: 95%;opacity: 0;}
+ }
+ @-webkit-keyframes turn {
+	0%   {left: 80%;}
+	50%{
+		opacity: 1;
+	}
+	100%  {left: 1%;opacity: 0;}
+ }
+@keyframes turn {
+	0%   {left: 80%;}
+	50%{
+		opacity: 1;
+	}
+	100%  {left: 1%;opacity: 0;}
+ }
