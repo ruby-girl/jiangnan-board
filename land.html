@@ -183,6 +183,13 @@
             overflow: hidden;
         }
 
+        #scroll2 {
+            width: 100%;
+            height: calc(100% - 50px);
+            line-height: 30px;
+            overflow: hidden;
+        }
+
         .myscroll li {
             height: 30px;
         }
@@ -191,9 +198,11 @@
             position: relative;
             height: calc(100%);
         }
-        .barChar{
+
+        .barChar {
             height: calc(100%);
         }
+
         .barChar-instruct {
             position: absolute;
             top: 28px;
@@ -292,8 +301,8 @@
                                 <div class="height-title">
                                     <div class="myscroll" id="scroll">
                                         <ul>
-                                            <li class="base-item green-color" v-for="(item,m) in baseInfo.staff" :key="m+'c'"
-                                                v-if="hasStaff">
+                                            <li class="base-item green-color" v-for="(item,m) in baseInfo.staff"
+                                                :key="m+'c'" v-if="hasStaff">
                                                 <span class="basic-info-name">{{item.name}}</span>
                                                 <p class="basic-info-text">
                                                     <span v-for="(Roles,Rindex) in item.userRoles">{{Roles.name}}<i
@@ -421,7 +430,8 @@
                         <div class="xpanel">
                             <!-- 右一-->
                             <div class="fill-h">
-                                <div style="height:33.3%;background-image:url('./imgs/land/bg_turangjiance.png');background-size: 100% 100%;">
+                                <div
+                                    style="height:33.3%;background-image:url('./imgs/land/bg_turangjiance.png');background-size: 100% 100%;">
                                     <div class="title-bg right-title">土壤检测</div>
                                     <div class="height-title">
                                         <div class="barChar-box">
@@ -434,7 +444,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div style="height:33.3%;background-image:url('./imgs/land/bg_turangjiance.png');background-size: 100% 100%;">
+                                <div
+                                    style="height:33.3%;background-image:url('./imgs/land/bg_turangjiance.png');background-size: 100% 100%;">
                                     <div class="title-bg right-title">大气检测</div>
                                     <div class="height-title">
                                         <div class="barChar-box">
@@ -447,7 +458,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div style="height:33.3%;background-image:url('./imgs/land/bg_turangjiance.png');background-size: 100% 100%;">
+                                <div
+                                    style="height:33.3%;background-image:url('./imgs/land/bg_turangjiance.png');background-size: 100% 100%;">
                                     <div class="title-bg right-title">水源检测</div>
                                     <div class="height-title">
                                         <div class="barChar-box">
