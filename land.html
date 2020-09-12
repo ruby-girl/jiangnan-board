@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
     <title>江安柑橘</title>
     <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/app.css" /> 
+    <link rel="stylesheet" href="css/app.css" />
     <link rel="stylesheet" href="css/swiper-bundle.min.css">
     <link rel="stylesheet" href="css/land.css" />
     <script src="js/vue.js"></script>
@@ -49,10 +49,10 @@
                                                         v-if="index!=baseInfo.breeds.length-1">、</i></span>
                                             </p>
                                         </li>
-                                        <li>
+                                        <!-- <li>
                                             <span class="basic-info-name">基地类型</span>
                                             <span class="green-color basic-info-text">*******</span>
-                                        </li>
+                                        </li> -->
                                         <li>
                                             <span class="basic-info-name">基地面积</span>
                                             <span class="green-color basic-info-text">{{baseInfo.acreage}}亩</span>
@@ -304,8 +304,10 @@
                             standard: [1, 1, 1, 0.8, 1, 1.2, 1, 1, 8, 4]
                         }
                     },
-                    saveListMarker:[],
-                    polygons:[]
+                    saveListMarker: [],
+                    polygons: [],
+                    infoWindow: null,
+                    plotdata:null
                 }
             },
             created() {
@@ -590,11 +592,12 @@
                 totalTj() {
                     $.get(this.baseUrl + '/api/billboardBaseInfos/totalTj/', { baseId: this.baseId }, function (res) {
                         let that = this
+                        this.plotdata=res.data.landParcels
                         setTimeout(function () {
                             that.addBlockOnMap(res.data.landParcels);
                         }, 1000)
                     }.bind(this));
-                   
+
                 },
                 addBlockOnMap(remarks) {
                     this.saveListMarker = []
@@ -615,6 +618,40 @@
                             this.map.setFitView(this.polygons);
                         }
                     }
+                    let that = this
+                    for (let i = 0; i < that.polygons.length; i++) {
+                        that.polygons[i].on("click", function (e) {
+                            that.infowindow(e, i);
+                        });
+                    }
+                },
+                getinfo(i) {
+                    this.info = [];
+                    this.info.push('<div style="width:175px;"><table>');
+                    this.info.push(
+                        '<tr style="color:#666;line-height:20px;"><td style="width:80px;">所属农户：</td><td>' +
+                        this.plotdata[i].adminName +
+                        "</td></tr>"
+                    );
+                    this.info.push(
+                        '<tr style="color:#666;line-height:20px;"><td style="width:80px;">地块名称：</td><td>' +
+                        this.plotdata[i].name +
+                        "</td></tr>"
+                    );
+                    this.info.push(
+                        '<tr style="color:#666;line-height:20px;"><td style="width:80px;">地块面积：</td><td>' +
+                        this.plotdata[i].acreage +
+                        "亩</td></tr>"
+                    );
+                    this.info.push("</table></div>");
+                },
+                infowindow(e, i) {
+                    this.info = [];
+                    this.getinfo(i);
+                    this.infoWindow = new AMap.InfoWindow({
+                        content: this.info.join("")
+                    });
+                    this.infoWindow.open(this.map, [e.lnglat.lng, e.lnglat.lat]);
                 },
                 initMap() {
                     let that = this;
