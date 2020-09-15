@@ -129,7 +129,7 @@ p {
 .drug-info li {
     width: 217px;
     height: 120px;
-    background-image: url(./imgs/bg1.png);
+    background-image: url("../imgs/bg1.png");
     background-size: 100% 100%;
     margin: 0 5px;
     color: #E6FEF7;
@@ -152,14 +152,14 @@ p {
     display: inline-block;
 }
 
-.item-bg-y {
+/* .item-bg-y {
     width: 49%;
     background: url('../assets/new/bg1.png') no-repeat;
     color: #b1fef6;
     line-height: 30px;
     font-size: 16px;
     padding: 0 10px;
-}
+} */
 
 .myscroll {
     width: 300px;
