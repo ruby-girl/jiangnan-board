@@ -347,3 +347,19 @@ text-shadow: 2px 2px 3px #0187b3, -2px 2px 4px #0187b3, 2px -2px 4px #0187b3, -2
 	}
 	100%  {left: 1%;opacity: 0;}
  }
+ .black-btn {
+	width: 60px;
+	height: 30px;
+	line-height: 27px;
+	text-align: center;
+	border: 1px solid #007aff;
+	border-radius: 4px;
+	color: #fff;
+	position: absolute;
+	top: 76px;
+	left: 50px;
+	cursor: pointer;
+  }
+  a,a:hover{
+	  color:#fff;
+  }
