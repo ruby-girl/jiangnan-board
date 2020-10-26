@@ -7,23 +7,26 @@
     <meta name="viewport"
         content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
-    <title>江安柑橘</title>
+    <title>宜宾江安白李果源数字化管理平台</title>
+    <link rel="icon" href="./imgs/favicon.ico">
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/app.css" />
     <link rel="stylesheet" href="css/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <link rel="stylesheet" href="css/land.css" />
     <script src="js/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 </head>
 
 <body class="bg01">
-    <header class="header">
-        <h3>宜宾江安柑橘大观园数字化管理平台</h3>
-        <div class="black-btn"><a href="index.html">返回</a></div>
-    </header>
+<header class="header">
+    <img src="imgs/title.png"/>
+    <div class="black-btn"><a href="index.html">返回</a></div>
+</header>
 
-    <div class="wrapper">
+    <div class="wrapper" style="visibility: hidden">
         <div class="container-fluid">
-            <div class="row fill-h" id="container-y">
+            <div class="row fill-h" id="container-y" v-cloak>
                 <div class="col-lg-3 fill-h">
                     <div class="xpanel-wrapper" style="height:25%">
                         <div class="xpanel">
@@ -37,7 +40,7 @@
                                         <li>
                                             <span class="basic-info-name">所在地区</span>
                                             <span
-                                                class="green-color basic-info-text">{{baseInfo.province_name}}{{baseInfo.city_name}}{{baseInfo.area_name}}{{baseInfo.addr}}</span>
+                                                class="green-color basic-info-text" v-cloak>{{baseInfo.province_name}}{{baseInfo.city_name}}{{baseInfo.area_name}}{{baseInfo.addr}}</span>
                                         </li>
                                         <li>
                                             <span class="basic-info-name">基地名称</span>
@@ -50,10 +53,6 @@
                                                         v-if="index!=baseInfo.breeds.length-1">、</i></span>
                                             </p>
                                         </li>
-                                        <!-- <li>
-                                            <span class="basic-info-name">基地类型</span>
-                                            <span class="green-color basic-info-text">*******</span>
-                                        </li> -->
                                         <li>
                                             <span class="basic-info-name">基地面积</span>
                                             <span class="green-color basic-info-text">{{baseInfo.acreage}}亩</span>
@@ -71,9 +70,9 @@
                                 style="background-image:url('./imgs/land/bg_jidixiangguanrenyuan.png');background-size: 100% 100%;">
                                 <div class="title-bg">相关人员信息</div>
                                 <!-- 所有地区 -->
-                                <div class="height-title">
+                                <div class="height-title personnel-box">
                                     <div class="myscroll" id="scroll">
-                                        <ul>
+                                        <ul class="basic-info">
                                             <li class="base-item green-color" v-for="(item,m) in baseInfo.staff"
                                                 :key="m+'c'" v-if="hasStaff">
                                                 <span class="basic-info-name">{{item.name}}</span>
@@ -82,9 +81,9 @@
                                                             v-if="Rindex!=item.userRoles.length-1">、</i></span>
                                                 </p>
                                             </li>
+
                                             <div v-if="!hasStaff"
-                                                style="width:100%;padding-top:10px;text-align:center;color:#fff;">暂无数据
-                                            </div>
+                                                 style="width:100%;padding-top:10px;text-align:center;color:#fff;">暂无数据</div>
                                         </ul>
                                     </div>
                                 </div>
@@ -99,11 +98,25 @@
                                 style="background-image:url('./imgs/index/bg_shishijiankong.png');background-size: 100% 100%;">
                                 <div class="title-bg">实时监控</div>
                                 <div class="height-title">
-                                    <select class="monitor-select right">
-                                        <option>黄龙寨</option>
-                                    </select>
-                                    <video id="myVideo" class="video-height" width="100%" ref="myPlayer" controls
-                                        :src="monitorVideo"></video>
+
+                                    <el-cascader
+                                            class="monitor-select"
+                                            v-model="value"
+                                            :options="options"
+                                            @change="handleChange"></el-cascader>
+                                    <video id="myVideo" width="100%" height="75%" ref="myPlayer" controls :src="monitorVideo"></video>
+
+
+
+<!--                                    <el-cascader-->
+<!--                                            class="monitor-select"-->
+<!--                                            v-model="value"-->
+<!--                                            :options="options"-->
+<!--                                            @change="handleChange"></el-cascader>-->
+
+<!--                                    <video id="myVideo" class="video-height" width="100%" ref="myPlayer" controls-->
+<!--                                        :src="monitorVideo"></video>-->
+
                                 </div>
                             </div>
                         </div>
@@ -122,7 +135,7 @@
                                                 <span class="number" v-for="item in muNumberData"
                                                     :class="'number'+item"></span>
                                             </p>
-                                            <p>基地面积（亩)</p>
+                                            <p>服务面积（亩)</p>
                                         </li>
                                         <li>
                                             <p class="number-imgs">
@@ -149,43 +162,35 @@
                             <div
                                 style="height:40%;background-image:url('./imgs/land/bg_zhongzhigongdan.png');background-size: 100% 100%;position: relative;">
                                 <div class="title-bg">种植工单</div>
-                                <div class="height-title">
+                                <div class="height-title work-roder">
                                     <ul
                                         style="position:relative;list-style:none;background:rgba(255,255,255,0.2);font-size:13px;line-height:30px;">
                                         <li class="base-item display-flex justify-content-flex-center"
                                             style="padding: 0 10px;">
-                                            <span
-                                                style="text-align: left;display:inline-block; width: 20%;color: #fff;">操作时间</span>
-                                            <span
-                                                style="text-align: center;display:inline-block; width: 20%;color: #fff;">农事操作</span>
-                                            <span
-                                                style="text-align: center;display:inline-block; width: 20%;color: #fff;">种植批次</span>
-                                            <span
-                                                style="color: #fff;display:inline-block; width: 20%;text-align: center;">投入品</span>
-                                            <span
-                                                style="color: #fff;display:inline-block; width: 20%;text-align: center;">操作照片</span>
+                                            <span>操作时间</span>
+                                            <span>农事操作</span>
+                                            <span>种植批次</span>
+                                            <span>投入品</span>
+                                            <span>操作照片</span>
                                         </li>
                                     </ul>
-                                    <div class="myscroll" id="scroll2">
+                                    <div class="myscroll" id="scroll2" style="">
                                         <ul>
                                             <li class="base-item" v-for="(item,m) in workOrder" :key="m+'c'"
                                                 v-if="hasOrder">
+                                                <span>{{item.executiontime}}</span>
+                                                <span :title="item.farmWorkItemName">{{item.farmWorkItemName}}</span>
+                                                <span>{{item.batchName}}</span>
+                                                <span>{{item.equipmentResourceStr || "无"}}</span>
+                                                <span v-if="item.farmWorkRecordPics==null || item.farmWorkRecordPics=='' || item.farmWorkRecordPics==undefined || item.farmWorkRecordPics.length==0">无</span>
+                                                <span v-else>
+                                                    <img :src="item.farmWorkRecordPics[0].url"/>
+                                                </span>
 
-                                                <span
-                                                    style="text-align: left;display:inline-block; width: 20%;color: #fff;">{{item.executiontime}}</span>
-                                                <span
-                                                    style="text-align: center;display:inline-block; width:20%;color: #fff;">{{item.executiontime}}</span>
-                                                <span
-                                                    style="text-align: center;display:inline-block; width:20%;color: #fff;">{{item.executiontime}}</span>
-                                                <span
-                                                    style="color: #fff;display:inline-block; width: 20%;text-align: center;">{{item.executiontime}}</span>
-                                                <span
-                                                    style="color: #fff;display:inline-block; width: 20%;text-align: center;">{{item.executiontime}}</span>
-                                            </li>
-                                            <div v-if="!hasOrder"
-                                                style="width:100%;padding-top:10px;text-align:center;color:#fff;">暂无数据
-                                            </div>
                                         </ul>
+                                        <div v-if="!hasOrder"
+                                             style="width:100%;padding-top:10px;text-align:center;color:#999;">暂无数据
+                                        </div>
                                     </div>
                                 </div>
                                 <img class="award-res" src="./imgs/anim.png" alt="">
@@ -206,8 +211,11 @@
                                 <div
                                     style="height:33.3%;background-image:url('./imgs/land/bg_turangjiance.png');background-size: 100% 100%;">
                                     <div class="title-bg right-title">土壤检测</div>
-                                    <div class="height-title">
-                                        <div class="barChar-box">
+                                    <div class="height-title barChar-wrap">
+                                        <div v-if="soilData==null" class="noDataImg">
+                                            暂无检测数据
+                                        </div>
+                                        <div class="barChar-box" v-else>
                                             <div class="barChar-instruct">
                                                 <span>检测量（mg/kg）</span>
                                                 <span class="violet">检测值</span>
@@ -221,7 +229,10 @@
                                     style="height:33.3%;background-image:url('./imgs/land/bg_turangjiance.png');background-size: 100% 100%;">
                                     <div class="title-bg right-title">大气检测</div>
                                     <div class="height-title">
-                                        <div class="barChar-box">
+                                        <div v-if="gasData==null" class="noDataImg">
+                                            暂无检测数据
+                                        </div>
+                                        <div class="barChar-box" v-else>
                                             <div class="barChar-instruct">
                                                 <span>检测量（mg/kg）</span>
                                                 <span class="violet">检测值</span>
@@ -235,7 +246,10 @@
                                     style="height:33.3%;background-image:url('./imgs/land/bg_turangjiance.png');background-size: 100% 100%;">
                                     <div class="title-bg right-title">水源检测</div>
                                     <div class="height-title">
-                                        <div class="barChar-box">
+                                        <div v-if="waterData==null" class="noDataImg">
+                                            暂无检测数据
+                                        </div>
+                                        <div class="barChar-box" v-else>
                                             <div class="barChar-instruct">
                                                 <span>检测量（mg/kg）</span>
                                                 <span class="violet">检测值</span>
@@ -260,14 +274,16 @@
     <script src="js/scroll.js"></script>
     <script type="text/javascript"
         src="https://webapi.amap.com/maps?v=1.4.15&key=b37218900009b3618f05afc6210f4dca"></script>
+    <script src="https://open.ys7.com/sdk/js/1.4/ezuikit.js"></script>
+
+
     <script type="text/javascript">
         new Vue({
             el: '#container-y',
             data() {
                 return {
-                    orgid: 139,
+                    orgid: 189,
                     baseId: '',
-                    monitorVideo: '',
                     //baseUrl: 'http://snj.scbysk.com/byapi',
                     // baseUrl: 'http://192.168.2.79:9998',
                     baseUrl: 'http://ja.scbysk.com/byapi',
@@ -306,38 +322,246 @@
                             standard: [1, 1, 1, 0.8, 1, 1.2, 1, 1, 8, 4]
                         }
                     },
+
                     saveListMarker: [],
                     polygons: [],
                     infoWindow: null,
-                    plotdata:null
+                    plotdata:null,
+                    polygon:[],
+
+                    value:[],
+                    monitorVideo: '',
+                    oneId:'',
+                    options:[],
+
+                    soilData:[],
+                    gasData:[],
+                    waterData:[],
                 }
             },
             created() {
+                let Hheight=$('.header').height()+9
+                $('.wrapper').css('top',Hheight)
                 this.baseId = this.GetQueryValue('baseId')
 
                 this.baseDetailInfo()
                 this.getworkOrder()
+
+                this.getBaseWithMonitorVideos();
             },
             mounted() {
+                //土壤检测饼图
+                this.getStrip(1)
+                // this.initBar('soilDetection',this.barSoil);
+                //大气检测饼图
+                this.getStrip(2)
+                // this.initBar('gasDetection',this.barGas);
+                //水源检测饼图
+                this.getStrip(3)
+                // this.initBar('waterDetection',this.barWater)
 
-                //土壤检测
-                this.initBar('soilDetection', this.barSoil);
-                //大气检测
-                this.initBar('gasDetection', this.barGas);
-                //水源检测
-                this.initBar('waterDetection', this.barWater)
+                this.totalTj();
+
+                $('.wrapper').css("visibility","visible");
 
             },
             methods: {
+                insertStr(soure, start, newStr){
+                    return soure.slice(0, start) + newStr + soure.slice(start);
+                },
+
+                getStrip(type){
+                    //1土壤检测，2大气检测，3水源检测
+                    $.get(this.baseUrl + '/api/billboardBaseInfos/environmentDetection', { baseId:this.baseId,detectionType:type }, function (result) {
+
+                        if(result.data!=null){
+                            let data=result.data.detectionData;
+
+                            let barData={
+                                xData:[],
+                                valData:{detection:[],standard:[]}
+                            }
+
+
+                            data.map(item=>{
+                                let standardValues=parseInt(item.standardValues)
+                                if(standardValues=='' || parseFloat(standardValues).toString() == "NaN"){
+                                    standardValues=0
+                                }
+                                let detectItemName=item.detectItemName;
+                                barData.xData.push(detectItemName);
+                                barData.valData.detection.push(item.detectValue);
+                                barData.valData.standard.push(standardValues)
+                            })
+
+
+
+                            // this.initBar('soilDetection',barData);
+                            switch(type) {
+                                case 1:
+                                    this.soilData=result.data;
+                                    this.initBar('soilDetection',barData);
+                                    break;
+                                case 2:
+                                    this.gasData=result.data;
+                                    this.initBar('gasDetection',barData);
+                                    break;
+                                case 3:
+                                    this.waterData=result.data;
+                                    this.initBar('waterDetection',barData)
+                                    break;
+                                default:
+                                    return;
+                            }
+
+
+                        }else{
+                            switch(type) {
+                                case 1:
+                                    this.soilData=result.data;
+
+                                    break;
+                                case 2:
+                                    this.gasData=result.data;
+                                    break;
+                                case 3:
+                                    this.waterData=result.data;
+                                    break;
+                                default:
+                                    return;
+                            }
+                        }
+
+
+
+                    }.bind(this));
+
+                },
+                getBaseWithMonitorVideos(){//监控
+                    $.get(this.baseUrl + '/api/billboardIndexs/getBaseWithMonitorVideos', { orgId: this.orgid }, function (result) {
+                        result.data.map(item=>{
+                            if(item.id==this.baseId){
+                                let obj={
+                                    value: item.id,
+                                    label: item.name,
+                                    children:[]
+                                }
+                                item.monitorVideoChannelVOS.map(childerItem=>{
+                                    obj.children.push({
+                                        label:childerItem.channelName,
+                                        value:childerItem.channelNo+'-'+childerItem.monitorVideoCode,
+                                    })
+                                })
+                                this.options.push(obj);
+                            }
+                        })
+
+
+                        let arr=result.data.filter(item=>{
+                            return item.id==this.baseId
+                        })
+
+                        this.value.push(arr[0].id,arr[0].monitorVideoChannelVOS[0].channelNo+'-'+arr[0].monitorVideoChannelVOS[0].monitorVideoCode)
+
+                        this.getAddress(arr[0].monitorVideoChannelVOS[0].channelNo,arr[0].monitorVideoChannelVOS[0].monitorVideoCode)
+
+                    }.bind(this));
+                },
+                getAddress(channelNo,monitorVideoCode){
+                    let data={
+                        channelNo:channelNo,
+                        deviceSerial:monitorVideoCode,
+                        orgId:this.orgid
+                    }
+                    $.get(this.baseUrl + 'api/billboardIndexs/getLiveAddresByDevice',data,function(result){
+                        this.monitorVideo=result.data[0].hls;
+                        console.log('myVideo:',result)
+
+                        this.$nextTick(() => {
+                            this.player = new EZUIPlayer("myVideo");
+                        });
+
+                    }.bind(this));
+
+                    // getLiveAddresByDevice(data).then(res=>{
+                    //     this.monitorVideo=res.data[0].hls;
+                    //     this.$nextTick(() => {
+                    //         this.player = new EZUIPlayer("myVideo");
+                    //     });
+                    // })
+                },
+                getMonitorVideosByBaseId(channelNo,monitorVideoCode,i,name){
+
+                    let data={
+                        channelNo:channelNo,
+                        deviceSerial:monitorVideoCode,
+                        orgId:this.orgid
+                    }
+                    $.get(this.baseUrl + '/api/billboardIndexs/getLiveAddresByDevice', data , function (result) {
+
+                        if(result.data[0].hls==null){
+                            return;
+                        }
+                        let obj = {
+                            // label: result.data[0].deviceName,
+                            label:name,
+                            value: result.data[0].hls,
+                        };
+                        this.options[i].children.push(obj);
+
+                        if(i==0){
+                            this.$nextTick(()=>{
+                                this.value=[this.options[0].value,this.options[0].children[0].value];
+                                this.oneId=this.value[0];
+
+
+
+                                this.selectAddress(this.value);
+
+                            })
+
+                        }
+                    }.bind(this));
+                },
+                handleChange(value){
+                    let channelNo=value[1].split('-')[0];
+                    let monitorVideoCode=value[1].split('-')[1];
+                    this.getAddress(channelNo,monitorVideoCode)
+                },
                 initBar(ref, barData) {
+
+                    let xData=[];
+                    barData.xData.map(item=>{
+                        if(item.length>3){
+                            xData.push(item.slice(0, 3) + '...');
+                        }else{
+                            xData.push(item);
+                        }
+                    })
                     const that = this;
                     let myCharts = echarts.init(that.$refs[ref]);
                     let option = {
                         color: ['#89A0FD', '#17C6BD'],
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: {
+                                type: 'shadow'
+                            },
+                            formatter:function(params){
+                                for(var i in params){
+                                    for(var k in xData){
+                                        if(xData[k]==params[i].name){
+                                            return barData.xData[k]+"<br/><span class='spotCategory temperature'></span>检测值:"+barData.valData.detection[k]+"<br><span class='spotCategory humidity'></span>国家标准:"+barData.valData.standard[k]
+                                        }
+                                    }
+                                }
+                            },
+                        },
+
                         xAxis: [
                             {
                                 type: 'category',
-                                data: barData.xData,
+                                data: xData,
                                 axisPointer: {
                                     type: 'shadow',
                                 },
@@ -345,7 +569,8 @@
                                     interval: 0,
                                     textStyle: {
                                         color: "#fff"
-                                    }
+                                    },
+                                    rotate:40
                                 },
                                 axisLine: {
                                     lineStyle: {
@@ -353,13 +578,11 @@
                                         width: 2
                                     }
                                 }
-                            }
+                            },
+
                         ],
                         yAxis: [
                             {
-                                min: barData.yData.min,
-                                max: barData.yData.max,
-                                interval: barData.yData.interval,
                                 axisLabel: {
                                     formatter: '{value}',
                                     textStyle: {
@@ -397,11 +620,9 @@
                                         }])
                                     }
                                 },
-
                             },
-
                             {
-                                name: '国家标准max',
+                                name: '国家标准',
                                 type: 'bar',
                                 data: barData.valData.standard,
                                 itemStyle: {
@@ -413,9 +634,8 @@
                                             offset: 1,
                                             color: '#011F27'
                                         }])
-
                                     }
-                                },
+                                }
                             },
                         ]
                     }
@@ -432,12 +652,30 @@
                             this.coords.push(add)
                         })
 
-                        this.initMap();
-                        this.getNumber(res.data.acreage.toString(), 1);
-                        this.getNumber(res.data.totalYield.toString(), 2);
-                        this.getNumber(res.data.totalProduction.toString(), 3);
+
+
+
+                        let totalAcreagenumber=res.data.acreage;
+                        let totalAcreage=Math.round(totalAcreagenumber*100)/100;
+
+                        let totalYieldNumber=totalAcreagenumber*1.5
+                        totalYieldNumber=Math.round(totalYieldNumber*100)/100;
+
+                        let totalProduction=totalAcreagenumber*1.2
+                        totalProduction=Math.round(totalProduction*100)/100;
+
+
+
+
+                        this.getNumber(totalAcreage.toString(), 1);
+                        this.getNumber(totalYieldNumber.toString(), 2);
+                        this.getNumber(totalProduction.toString(), 3);
+
                         if (this.baseInfo.staff.length > 0) {
                             this.hasStaff = true
+
+
+
                             $('#scroll').myScroll({
                                 speed: 30, //数值越大，速度越慢
                                 rowHeight: 30 //li的高度
@@ -449,12 +687,17 @@
                     $.get(this.baseUrl + '/api/largescreenindex/getworkOrder/', { baseId: this.baseId }, function (res) {
                         this.workOrder = res.data;
                         if (this.workOrder.length > 0) {
-                            this.hasOrder = true
+                            this.hasOrder = true;
+
+
                             $('#scroll2').myScroll({
                                 speed: 30, //数值越大，速度越慢
-                                rowHeight: 30 //li的高度
+                                rowHeight: 40 //li的高度
                             });
+                        }else{
+                            this.hasOrder = false
                         }
+
                     }.bind(this));
                 },
                 _drawPolygonal(dataLeft, dataRight) {
@@ -593,17 +836,33 @@
 
                 totalTj() {
                     $.get(this.baseUrl + '/api/billboardBaseInfos/totalTj/', { baseId: this.baseId }, function (res) {
-                        let that = this
+                        let that = this;
                         this.plotdata=res.data.landParcels
-                        setTimeout(function () {
-                            that.addBlockOnMap(res.data.landParcels);
-                        }, 1000)
+                        let mapArrOne=[]
+                        that.plotdata.map(item=>{
+                            let mapArr=[];
+                            let mapAddr=JSON.parse(item.mapAddr).path;
+                            mapAddr.map(mapItem=>{
+                                let arr=[mapItem.lng,mapItem.lat];
+                                that.coords.push(arr)
+                                mapArr.push(arr)
+                            })
+                            mapArrOne.push([{info:item,path:mapArr}])
+                        })
+                        that.polygon=mapArrOne;
+
+                        that.initMap();
+
+
                     }.bind(this));
 
                 },
                 addBlockOnMap(remarks) {
                     this.saveListMarker = []
                     this.polygons = [];
+                    if(remarks==null){
+                        return;
+                    }
                     for (let i = 0; i < remarks.length; i++) {
                         let remark = remarks[i].mapAddr;
                         if (remark != undefined && remark != null && remark.trim() != "") {
@@ -631,17 +890,17 @@
                     this.info = [];
                     this.info.push('<div style="width:175px;"><table>');
                     this.info.push(
-                        '<tr style="color:#666;line-height:20px;"><td style="width:80px;">所属农户：</td><td>' +
+                        '<tr style="color:#fff;line-height:20px;"><td style="width:80px;">所属农户：</td><td>' +
                         this.plotdata[i].adminName +
                         "</td></tr>"
                     );
                     this.info.push(
-                        '<tr style="color:#666;line-height:20px;"><td style="width:80px;">地块名称：</td><td>' +
+                        '<tr style="color:#fff;line-height:20px;"><td style="width:80px;">地块名称：</td><td>' +
                         this.plotdata[i].name +
                         "</td></tr>"
                     );
                     this.info.push(
-                        '<tr style="color:#666;line-height:20px;"><td style="width:80px;">地块面积：</td><td>' +
+                        '<tr style="color:#fff;line-height:20px;"><td style="width:80px;">地块面积：</td><td>' +
                         this.plotdata[i].acreage +
                         "亩</td></tr>"
                     );
@@ -657,7 +916,6 @@
                 },
                 initMap() {
                     let that = this;
-                    // MapLoader().then(AMap => {
                     let googleLayer = new AMap.TileLayer({
                         getTileUrl:
                             "http://mt{1,2,3,0}.google.cn/vt/lyrs=s&hl=zh-CN&gl=cn&x=[x]&y=[y]&z=[z]&s=Galile"
@@ -668,7 +926,7 @@
                     }); //定义一个路网图层
                     that.map = new AMap.Map(that.$refs.map, {
                         center: that.coords[0],
-                        zooms: [8, 16],
+                        zooms: [9, 20],
                         layers: [googleLayer, roadNetLayer]
                     });
                     AMap.plugin("AMap.DistrictSearch", function () {
@@ -698,11 +956,28 @@
                             });
                             polygon.setPath(pathArray);
                             that.map.add(polygon);
-                            var polygons = [];
+
+                            that.polygon.map((item,i)=>{
+                                let info=item[0].info;
+                                var polygon=null
+                                polygon = new AMap.Polygon({
+                                    map: that.map,
+                                    path:item[0].path,
+                                    strokeColor: "#00AE66",
+                                    strokeOpacity: 1,
+                                    strokeWeight: 2,
+                                    fillColor: "#00AE66",
+                                    fillOpacity: 0.35
+                                });
+                                that.map.add(polygon);
+
+                            })
+
+                            that.addBlockOnMap(that.plotdata);
+
                         });
                         that.map.on("complete", function () {
-                            that.totalTj()
-                            console.log("地图加载完成！");
+
                             var myEvent = new CustomEvent("done1", {});
                             if (window.dispatchEvent) {
                                 window.dispatchEvent(myEvent);
@@ -711,9 +986,6 @@
                             }
                         });
                     });
-                    // });
-
-
                 },
                 GetQueryValue(queryName) {
                     var query = decodeURI(window.location.search.substring(1));

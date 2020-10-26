@@ -22,7 +22,7 @@ ul {
 .basic-info,
 .flag-title,
 .honor-content {
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .basic-info li {
@@ -99,19 +99,7 @@ p {
     margin-right: 0;
 }
 
-.monitor-select {
-    width: 100%;
-    height: 36px;
-    padding: 0 7px;
-    background: #0F2345;
-    border: 1px solid #00B0FF;
-    border-radius: 6px;
-    color: #00FBFF;
-    text-align: right;
-    margin-top: 6px;
-    box-shadow: inset 0 0 7px 0px rgba(18, 140, 254, 1);
-    outline: #0F2345;
-}
+
 
 .video-height {
     margin-top: 15px;
@@ -185,12 +173,15 @@ p {
 }
 
 .barChar {
-    height: calc(100%);
+    height: calc(110%);
+    margin-top:-5%;
 }
-
+.barChar-wrap{
+    margin-top:0;
+}
 .barChar-instruct {
     position: absolute;
-    top: 28px;
+    top: 12%;
     left: 16px;
     font-size: 12px;
 }
@@ -225,4 +216,51 @@ p {
 
 .barChar-instruct .green:before {
     background: linear-gradient(0deg, rgba(14, 132, 197, 1), rgba(23, 198, 189, 1));
+}
+.work-roder{
+    height: calc(100% - 80px);
+}
+.personnel-box{
+    height: calc(100% - 70px);
+}
+.work-roder .base-item{
+    overflow: hidden;
+    margin-bottom:10px;
+    line-height: 40px;
+}
+.work-roder .base-item span{
+    display: block;
+    float: left;
+    width:20%;
+    text-align: center;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    padding:0 2px;
+}
+.work-roder .base-item span img{
+    width:100%;
+    max-width: 60px;
+    height:auto;
+    max-height:40px;
+}
+@media screen and (max-width: 1450px) {
+    .drug-info li{
+        width: 170px;
+        height: 110px;
+    }
+}
+@media screen and (max-height: 965px) {
+
+}
+@media screen and (max-height: 935px) {
+    .basic-info li{
+        line-height: 28px;
+    }
+    .myscroll li{
+        height:28px;
+    }
+}
+@media screen and (max-height: 910px) {
+
 }

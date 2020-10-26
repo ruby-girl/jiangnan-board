@@ -7,26 +7,26 @@
     <meta name="viewport"
         content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
-    <title>江安柑橘</title>
+    <title>宜宾江安白李果源数字化管理平台</title>
+    <link rel="icon" href="./imgs/favicon.ico">
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/app.css" />
     <link rel="stylesheet" href="css/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <link rel="stylesheet" href="css/company.css" />
     <script src="js/vue.js"></script>
-    <style>
-        
-    </style>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 </head>
 
 <body class="bg01">
     <header class="header">
-        <h3>宜宾江安柑橘大观园数字化管理平台</h3>
+        <img src="imgs/title.png"/>
         <div class="black-btn"><a href="index.html">返回</a></div>
     </header>
 
-    <div class="wrapper">
+    <div class="wrapper" style="visibility: hidden">
         <div class="container-fluid">
-            <div class="row fill-h" id="container-y">
+            <div class="row fill-h" id="container-y"  v-cloak>
                 <div class="col-lg-3 fill-h">
                     <div class="xpanel-wrapper"
                         style="height:60%;padding:0 0 25px 0;background-image:url('./imgs/company/bg_jichuxinxi.png');background-size: 100% 100%;">
@@ -36,49 +36,84 @@
                                 <div class="title-bg">基础信息</div>
                                 <!-- 所有地区 -->
                                 <div class="height-title">
-                                    <ul class="basic-info">
-                                        <li>
-                                            <span class="basic-info-name">企业名称：</span>
-                                            <span class="basic-info-text">{{baseInfo.name}}</span>
-                                        </li>
-                                        <li>
-                                            <span class="basic-info-name">地理位置：</span>
-                                            <span class="basic-info-text">{{baseInfo.addr}}</span>
-                                        </li>
-                                        <li>
-                                            <span class="basic-info-name">主要品种：</span>
-                                            <p class="basic-info-text">
-                                                <span
-                                                    v-for="(item,index) in plantInfo.breeds">{{item.name}}<i>、</i></span>
-                                            </p>
-                                        </li>
-                                        <li>
-                                            <span class="basic-info-name">管理面积：</span>
-                                            <span class="basic-info-text">{{plantInfo.totalAcreage}}亩</span>
-                                        </li>
-                                        <li>
-                                            <span class="basic-info-name">种植基地：</span>
-                                            <span class="basic-info-text">{{baseLen}}个</span>
-                                        </li>
-                                    </ul>
-                                    <ul class="enterprise-flag">
-                                        <li>
-                                            <p class="green-color flag-title">01 企业愿景</p>
-                                            <p class="company-txt">{{baseInfo.visionPlanning || '无'}}</p>
-                                        </li>
-                                        <li>
-                                            <p class="green-color flag-title">02 企业发展核心</p>
-                                            <p class="company-txt">{{baseInfo.developmentModel || '无'}}</p>
-                                        </li>
-                                        <li>
-                                            <p class="green-color flag-title">03 企业理念</p>
-                                            <p class="company-txt">{{baseInfo.developmentIdea || '无'}}</p>
-                                        </li>
-                                        <li>
-                                            <p class="green-color flag-title">04 企业使命</p>
-                                            <p class="company-txt">{{baseInfo.developmentMission || '无'}}</p>
-                                        </li>
-                                    </ul>
+
+<!--                                        <ul class="basic-info">-->
+<!--                                            -->
+<!--                                        </ul>-->
+                                    <div class="myscroll" id="scroll3" style="height:100%;overflow: hidden">
+                                        <ul class="enterprise-flag basic-info">
+                                            <li>
+                                                <span class="basic-info-name">平台名称：</span>
+                                                <span class="basic-info-text">{{baseInfo.name}}</span>
+                                            </li>
+                                            <li>
+                                                <span class="basic-info-name">地理位置：</span>
+                                                <span class="basic-info-text">
+                                                {{baseInfo.provinceName}}{{baseInfo.cityName}}{{baseInfo.areaName}}{{baseInfo.addr}}
+                                            </span>
+                                            </li>
+                                            <li>
+                                                <span class="basic-info-name">主要品种：</span>
+                                                <p class="basic-info-text">
+                                                    <span v-for="(item,index) in plantInfo.breeds">{{item.name}}<i v-if="index!=plantInfo.breeds.length-1">、</i></span>
+                                                </p>
+                                            </li>
+                                            <li>
+                                                <span class="basic-info-name">管理面积：</span>
+                                                <span class="basic-info-text">{{plantInfo.totalAcreage}}亩</span>
+                                            </li>
+                                            <li>
+                                                <span class="basic-info-name">种植基地：</span>
+                                                <span class="basic-info-text">{{baseLen}}个</span>
+                                            </li>
+                                            <li style="margin-top:20px">
+                                                <p class="green-color flag-title">01 公司定位</p>
+                                                <p class="company-txt">
+                                                    公司定位为立足江安、扎根宜宾、辐射西南的一家农业产业化投资、运营和服务平台企业。
+                                                </p>
+                                            </li>
+                                            <li>
+                                                <p class="green-color flag-title">02 经营方针</p>
+                                                <p class="company-txt">
+                                                    公司将按照“投资园区建标杆，打造核心竞争力，开拓一产新服务，关联二产适度建，赋能三产共分享”三十五字方针进行经营。
+                                                </p>
+                                            </li>
+                                            <li>
+                                                <p class="green-color flag-title">03 经营目标</p>
+                                                <p class="company-txt">
+                                                    2020年申报省级现代农业产业园区、2021年达到省级五星级现代产业园区建设标准；通过老果园改新、引领新园区建设，在2022年打造成为国家级晚熟柑橘示范园区。<br/>
+                                                    2021年成为市级龙头企业，2022年成为省级龙头企业，2023年争取国家级龙头企业。
+                                                </p>
+                                            </li>
+                                            <li>
+                                                <p class="green-color flag-title">04 业务发展规划</p>
+                                                <p class="company-txt">
+                                                    <img @click="previewImg('./imgs/planImg.png',2)" src="./imgs/planImg.png">
+                                                </p>
+                                            </li>
+                                        </ul>
+
+                                    </div>
+
+
+<!--                                    <ul class="enterprise-flag">-->
+<!--                                        <li>-->
+<!--                                            <p class="green-color flag-title">01 企业愿景</p>-->
+<!--                                            <p class="company-txt">{{baseInfo.visionPlanning || '无'}}</p>-->
+<!--                                        </li>-->
+<!--                                        <li>-->
+<!--                                            <p class="green-color flag-title">02 企业发展核心</p>-->
+<!--                                            <p class="company-txt">{{baseInfo.developmentModel || '无'}}</p>-->
+<!--                                        </li>-->
+<!--                                        <li>-->
+<!--                                            <p class="green-color flag-title">03 企业理念</p>-->
+<!--                                            <p class="company-txt">{{baseInfo.developmentIdea || '无'}}</p>-->
+<!--                                        </li>-->
+<!--                                        <li>-->
+<!--                                            <p class="green-color flag-title">04 企业使命</p>-->
+<!--                                            <p class="company-txt">{{baseInfo.developmentMission || '无'}}</p>-->
+<!--                                        </li>-->
+<!--                                    </ul>-->
                                 </div>
 
                             </div>
@@ -91,39 +126,52 @@
                                 style="background-image:url('./imgs/company/bg_zhuanjiatuandui.png');background-size: 100% 100%;">
                                 <div class="title-bg">专家团队</div>
                                 <!-- 所有地区 -->
-                                <div class="height-title">
-                                    <ul
-                                        style="position:relative;list-style:none;background:rgba(255,255,255,0.2);font-size:13px;line-height:30px;">
-                                        <li class="base-item display-flex justify-content-flex-center"
-                                            style="padding: 0 10px;">
-                                            <span
-                                                style="text-align: left;display:inline-block; width: 25%;color: #fff;">姓名</span>
-                                            <span
-                                                style="text-align: center;display:inline-block; width: 25%;color: #fff;">专业背景</span>
-                                            <span
-                                                style="text-align: center;display:inline-block; width: 25%;color: #fff;">学校</span>
-                                            <span
-                                                style="color: #fff;display:inline-block; width: 25%;text-align: center;">学历</span>
-                                        </li>
-                                    </ul>
-                                    <div class="myscroll" id="scroll2">
-                                        <ul>
-                                            <li class="base-item" v-for="(item,m) in expertData" :key="m+'c'"
-                                                v-if="hasList">
-                                                <span
-                                                    style="text-align: left;display:inline-block; width: 25%;color: #fff;">{{item.name}}</span>
-                                                <span
-                                                    style="text-align: center;display:inline-block; width:25%;color: #fff;">{{item.name}}</span>
-                                                <span
-                                                    style="text-align: center;display:inline-block; width:25%;color: #fff;">{{item.name}}</span>
-                                                <span
-                                                    style="color: #fff;display:inline-block; width: 25%;text-align: center;">{{item.name}}</span>
-                                            </li>
-                                            <div v-if="!hasList"
-                                                style="width:100%;padding-top:10px;text-align:center;color:#fff;">暂无数据
-                                            </div>
-                                        </ul>
+                                <div class="height-title expert-box">
+
+
+                                    <div >
+                                        <p>首席专家：于家伊，中国循环经济协会副会长，中国生态学会咨询工作委员会副主任，北京低碳农业协会副理事长，有机废弃资源生物转化北京市工程研究中心主任，北京嘉博文生物科技有限公司首席科学家。</p>
+                                        <p>专家组成员构成:</p>
+                                        <p>汪志辉教授，四川农业大学园艺学院副院长、党委副书记、果蔬研究所所长，南京农业大学博士后，教授，博士生导师，四川省学术技术带头人后备人选。</p>
+                                        <p>汪志辉教授团队成员；</p>
+                                        <p>嘉博文养地技术团队成员；</p>
+                                        <p>江安县本地实战型技术专家。</p>
                                     </div>
+
+
+
+<!--                                    <ul-->
+<!--                                        style="position:relative;margin: 0 -16px;list-style:none;background:rgba(255,255,255,0.2);font-size:13px;line-height:30px;">-->
+<!--                                        <li class="base-item display-flex justify-content-flex-center"-->
+<!--                                            style="padding: 0 10px;">-->
+<!--                                            <span-->
+<!--                                                style="text-align: left;display:inline-block; width: 25%;color: #fff;">姓名</span>-->
+<!--                                            <span-->
+<!--                                                style="text-align: center;display:inline-block; width: 25%;color: #fff;">专业背景</span>-->
+<!--                                            <span-->
+<!--                                                style="text-align: center;display:inline-block; width: 25%;color: #fff;">学校</span>-->
+<!--                                            <span-->
+<!--                                                style="color: #fff;display:inline-block; width: 25%;text-align: center;">学历</span>-->
+<!--                                        </li>-->
+<!--                                    </ul>-->
+<!--                                    <div class="myscroll" id="scroll2" style="margin: 0 -16px;">-->
+<!--                                        <ul>-->
+<!--                                            <li class="base-item" v-for="(item,m) in expertData" :key="m+'c'"-->
+<!--                                                v-if="hasList">-->
+<!--                                                <span-->
+<!--                                                    style="text-align: left;display:inline-block; width: 25%;color: #fff;">{{item.name}}</span>-->
+<!--                                                <span-->
+<!--                                                    style="text-align: center;display:inline-block; width:25%;color: #fff;">{{item.name}}</span>-->
+<!--                                                <span-->
+<!--                                                    style="text-align: center;display:inline-block; width:25%;color: #fff;">{{item.name}}</span>-->
+<!--                                                <span-->
+<!--                                                    style="color: #fff;display:inline-block; width: 25%;text-align: center;">{{item.name}}</span>-->
+<!--                                            </li>-->
+<!--                                            <div v-if="!hasList"-->
+<!--                                                style="width:100%;padding-top:10px;text-align:center;color:#fff;">暂无数据-->
+<!--                                            </div>-->
+<!--                                        </ul>-->
+<!--                                    </div>-->
                                 </div>
 
                             </div>
@@ -133,42 +181,49 @@
                 <div class="col-lg-6 fill-h">
                     <div class="xpanel-wrapper xpanel-wrapper-1">
                         <div class="xpanel">
-
-                            <!-- <div class="height-title"> -->
                             <div
                                 style="height:60%;background-image:url('./imgs/company/bg_qiyejieshao.png');background-size: 100% 100%;overflow: hidden;position: relative;">
                                 <div class="title-bg" style="text-align: center;">企业介绍</div>
+
                                 <div class="enterprise-content">
-                                    <div class="enterprise-img display-flex justify-content-flex-justify">
+                                    <div class="enterprise-img display-flex justify-content-flex-justify" style="height:45%;">
                                         <div v-for="item in introImg" class="company-img"
-                                            :style="{backgroundImage:'url('+item+')',backgroundRepeat:'no-repeat',backgroundSize:'cover',backgroundPosition:'center'}">
+                                             @click="previewImg(item,1)"
+                                             :style="{backgroundImage:'url('+item+')',backgroundRepeat:'no-repeat',backgroundSize:'cover',backgroundPosition:'center'}">
                                         </div>
                                     </div>
-                                    <div class="enterprise-text">
-                                        {{baseInfo.introName}}
-                                    </div>
+
+
+
+                                    <div class="myscroll" id="scroll4" style="height:calc(55% - 16px);margin-top:16px;overflow: hidden">
+                                        <ul class="enterprise-text" v-html="baseInfo.introName">
+
+                                        </ul>
+                                     </div>
                                 </div>
+
+
                                 <img class="award" src="./imgs/anim.png" alt="">
                             </div>
                             <!-- </div> -->
                             <div style="height:40%;">
 
-                                <div class="height-title" style="height:100%">
+                                <div class="height-title" style="height:100%;padding:0 0;">
                                     <div class="display-flex justify-content-flex-justify" style="height:100%">
                                         <div
-                                            style="background-image:url('./imgs/company/bg_gongsijieshao.png');background-size: 100% 100%;padding: 0 10px 10px 0;">
+                                            style="width: 50%;background-image:url('./imgs/company/bg_gongsijieshao.png');background-size: 100% 100%;padding: 0 10px 10px 0;">
                                             <div class="title-bg">公司介绍</div>
                                                 <div class="video-height" style="padding: 0 10px;">
-                                                    <video id="myVideo" width="100%" height="100%" ref="myPlayer" controls
+                                                    <video class="myVideo" autoplay="autoplay" width="100%" ref="myPlayer" loop="true" controls
                                                         :src="baseInfo.introVideoCom"></video>
                                                 </div>
                                         </div>
                                         <div
-                                            style="background-image:url('./imgs/company/bg-chanpinjieshao.png');background-size: 100% 100%;padding: 0 0 10px 0;">
+                                            style="width: 50%;background-image:url('./imgs/company/bg-chanpinjieshao.png');background-size: 100% 100%;padding: 0 0 10px 0;">
                                             <div class="title-bg right-title">产品介绍</div>
                                             <div class="video-height" style="padding: 0 10px;">
-                                                <video id="myVideo" width="100%" height="100%" ref="myPlayer" controls
-                                                    :src="baseInfo.introVideoProd"></video>
+                                                <video class="myVideo" width="100%" ref="myPlayer" autoplay="autoplay" loop="true" controls
+                                                       :src="baseInfo.introVideoProd"></video>
                                             </div>
                                         </div>
 
@@ -192,24 +247,20 @@
                                 <div style="height:40%;background-image:url('./imgs/company/bg_guanlimoshi.png');background-size: 100% 100%">
                                     <div class="title-bg right-title">管理模式</div>
                                     <div class="height-title" style="padding:10px">
-                                        <div
-                                            style="background-image:url('./imgs/zhuanjiatuandui.png');height:100%;width:100%;background-repeat:no-repeat;background-size:cover;background-position:center">
-
+                                        <div style="background-image:url('./imgs/zhuanjiatuandui.png');height:calc(100% - 40px);margin-top:15px;width:100%;background-repeat:no-repeat;background-size:contain;background-position:center">
                                         </div>
                                     </div>
                                 </div>
-                                <div style="height:60%;background-image:url('./imgs/company/bg_zhuyaotongyu.png');background-size: 100% 100%">
+                                <div style="height:60%;padding-bottom:20px;background-image:url('./imgs/company/bg_zhuyaotongyu.png');background-size: 100% 100%">
                                     <div class="title-bg right-title">主要荣誉</div>
-                                    <div class="height-title">
+                                    <div class="height-title honort-list">
                                         <div class="display-flex"
-                                            style="height:33%;width:100%" v-for="(item,index) in honortData">
+                                            style="height:50%;width:100%" v-for="(item,index) in honortData">
                                             <div style="height:100%;width:60%;padding: 10px;">
-                                                <div
-                                                    :style="{backgroundImage:'url('+item.url+')',height:'100%',width:'100%',backgroundRepeat:'no-repeat',backgroundSize:'cover',backgroundPosition:'center'}">
-
+                                                <div @click="previewImg(item.url,1)" :style="{backgroundImage:'url('+item.url+')',height:'100%',width:'100%',backgroundRepeat:'no-repeat',backgroundSize:'contain',backgroundPosition:'center'}">
                                                 </div>
                                             </div>
-                                            <div class="honor-content">
+                                            <div class="honor-content" >
                                                 <p>{{item.info}}</p>
                                             </div>
                                         </div>
@@ -220,14 +271,18 @@
                         </div>
                     </div>
                 </div>
+                <el-dialog class="imgDialog"  :class="{imgDialogBg:imgType==2}" width="600px" style="text-align: center" :visible.sync="imgDialogVisible" title="预览">
+                    <img style="max-width:100%" :src="dialogImageUrl" alt="" />
+                </el-dialog>
+
             </div>
         </div>
-    </div>
 
+    </div>
     <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
     <script src="js/echarts-3.8.5.min.js"></script>
-    <script src="js/scroll.js"></script>
+    <script src="js/scroll2.js"></script>
     <script type="text/javascript"
         src="https://webapi.amap.com/maps?v=1.4.15&key=b37218900009b3618f05afc6210f4dca"></script>
     <script type="text/javascript">
@@ -237,8 +292,8 @@
                 return {
                     orgid: 189,
                     baseId: '',
-                    monitorVideo: '',
-                    // baseUrl: 'http://snj.scbysk.com/byapi',                 
+
+                    // baseUrl: 'http://snj.scbysk.com/byapi',
                     baseUrl: 'http://ja.scbysk.com/byapi',
                    // baseUrl: 'http://192.168.2.79:9998',
                     baseInfo: {},
@@ -247,23 +302,44 @@
                     coords: [],
                     workOrder: [],
                     introImg: null,
-                    plantInfo: null,
+                    plantInfo:{},
                     baseLen: 0,
-                    honortData: []
+                    honortData: [],
+
+                    options:[],
+                    oneId:'',
+                    value:'',
+                    address:'',
+                    dialogImageUrl:'',
+                    imgDialogVisible:false,
+                    imgType:0,
+
                 }
             },
             created() {
+                let Hheight=$('.header').height()+9
+                $('.wrapper').css('top',Hheight)
+
+
                 this.baseId = this.GetQueryValue('baseId')
 
                 this.getBaseInfo()
                 this.baseDetailInfo()
-            },
-            mounted() {
 
             },
+            mounted() {
+                $('.wrapper').css("visibility","visible");
+            },
             methods: {
+                previewImg(url,type){
+                    this.imgType=type;
+                    this.dialogImageUrl=url;
+                    this.imgDialogVisible=true;
+                },
                 baseDetailInfo() {//地图数据
                     $.get(this.baseUrl + '/api/largescreenindex/baseDetailInfo', { orgid: this.orgid }, function (result) {
+                        console.log('种植信息：',result.data);
+
                         this.plantInfo = result.data;//种植信息
                         this.baseLen = this.plantInfo.baseInfo.length;
                     }.bind(this));
@@ -271,11 +347,30 @@
                 getBaseInfo() {//公司信息
                     $.get(this.baseUrl + '/api/largescreenindex/getBaseInfo', { orgid: this.orgid }, function (result) {
                         this.baseInfo = result.data;//公司简介
+
+                        this.$nextTick(()=>{
+
+
+                            let contentHeight=$('.enterprise-content').height()*0.55-16;
+                            let textHeight=$('.enterprise-text').height()
+                            if(textHeight>contentHeight){
+                                console.log('滚');
+                                console.log($('#scroll4'))
+                                $('#scroll4').scroll({
+                                    speed: 60, //数值越大，速度越快
+                                });
+                            }
+
+                        })
+
                         this.honortData = JSON.parse(result.data.honor)
                         if (this.baseInfo.introImg != null) {
                             this.introImg = this.baseInfo.introImg.split(',')
-                            console.info('asd,,', this.introImg)
                         }
+                        $('#scroll3').scroll({
+                            speed: 60, //数值越大，速度越快
+                        });
+
                     }.bind(this));
                 },
                 professorInfo() {//专家团队

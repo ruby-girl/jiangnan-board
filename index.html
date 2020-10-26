@@ -4,58 +4,92 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport"
-        content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
-    <title>江安柑橘</title>
+    <title>宜宾江安白李果源数字化管理平台</title>
+    <link rel="icon" href="./imgs/favicon.ico">
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/app.css" />
     <link rel="stylesheet" href="css/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel='stylesheet' href='css/nprogress.css'/>
     <link rel="stylesheet" href="css/index.css" />
     <script src="js/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src='js/nprogress.js'></script>
 </head>
 
 <body class="bg01">
     <header class="header">
-        <h3>宜宾江安柑橘大观园数字化管理平台</h3>
+        <img src="imgs/title.png"/>
+<!--        <h3>宜宾江安白李天下数字化管理平台</h3>-->
     </header>
 
     <div class="wrapper">
-        <div class="container-fluid">
-            <div class="row fill-h" id="container-y">
+
+        <div class="container-fluid" id="container-y" v-cloak>
+            <div class="row fill-h">
                 <div class="col-lg-3 fill-h">
-                    <div class="xpanel-wrapper xpanel-wrapper-2">
+                    <div class="xpanel-wrapper" style="height:53%;">
                         <div class="xpanel">
                             <!-- 左侧 -->
                             <div class="fill-h"
                                 style="background-image:url('./imgs/index/bg_pingtaijianjie.png');background-size: 100% 100%;cursor: pointer;"
                                 @click="toCompany">
-                                <div class="title-bg">地区介绍</div>
+                                <div class="title-bg">平台简介</div>
                                 <!-- 所有地区 -->
                                 <div class="height-title">
                                     <div class="company-img"
                                         :style="{backgroundImage:'url('+introImg+')',backgroundRepeat:'no-repeat',backgroundSize:'cover',backgroundPosition:'center'}">
                                     </div>
-                                    <div class="wrap">
-                                        <div class="text">{{enterpriseInfo.introName}}</div>
+
+
+                                    <p class="intro-col">
+                                        <span>企业名称</span>
+                                        <span>{{enterpriseInfo.name}}</span>
+                                    </p>
+                                    <p class="intro-col">
+                                        <span>基地位置</span>
+                                        <span>{{enterpriseInfo.provinceName}}{{enterpriseInfo.cityName}}{{enterpriseInfo.areaName}}</span>
+                                    </p>
+                                    <p class="intro-col">
+                                        <span>主要品种</span>
+                                        <span>
+                                            <a v-for="(item,index) in plantInfo.breeds">{{item.name}}<i v-if="index!=plantInfo.breeds.length-1">、</i></a>
+                                        </span>
+
+                                    </p>
+                                    <div class="intro-info">
+                                        <router-link to="/introduce">
+                                            <div class="intro-text">
+                                                {{introName}}
+                                            </div>
+                                            <span class="intro-detail">详情</span>
+                                        </router-link>
                                     </div>
+
                                 </div>
 
                             </div>
                         </div>
                     </div>
-                    <div class="xpanel-wrapper xpanel-wrapper-2">
+                    <div class="xpanel-wrapper" style="height:47%">
                         <div class="xpanel">
                             <!-- 左侧 -->
                             <div class="fill-h"
                                 style="background-image:url('./imgs/index/bg_shishijiankong.png');background-size: 100% 100%;">
                                 <div class="title-bg">实时监控</div>
                                 <div class="height-title">
-                                    <select class="monitor-select right">
-                                        <option>黄龙寨</option>
-                                    </select>
-                                    <video id="myVideo" class="video-height" width="100%" ref="myPlayer" controls
-                                        :src="monitorVideo"></video>
+<!--                                    <select class="monitor-select right">-->
+<!--                                        <option>黄龙寨</option>-->
+<!--                                    </select>-->
+                                    <el-cascader
+                                            class="monitor-select"
+                                            v-model="value"
+                                            :options="options"
+                                            @change="selectAddress"></el-cascader>
+                                    <video id="myVideo" width="100%" height="75%" ref="myPlayer" controls :src="address"></video>
+
                                 </div>
                             </div>
                         </div>
@@ -74,7 +108,7 @@
                                                 <span class="number" v-for="item in muNumberData"
                                                     :class="'number'+item"></span>
                                             </p>
-                                            <p>基地面积（亩)</p>
+                                            <p>服务面积（亩)</p>
                                         </li>
                                         <li>
                                             <p class="number-imgs">
@@ -102,7 +136,7 @@
                             <div
                                 style="height:40%;background-image:url('./imgs/index/bg_moisture.png');background-size: 100% 100%;position: relative;">
                                 <div class="title-bg">土壤墒情</div>
-                                <div class="height-title" ref="polygonal"></div>
+                                <div class="height-title polygonal" id="polygonal" ref="polygonal"></div>
                                 <img class="award-res" src="./imgs/anim.png" alt="">
                             </div>
                             <!-- 公司信息 -->
@@ -119,136 +153,89 @@
                             <!-- 右一-->
                             <div class="fill-h">
                                 <div
-                                    style="height:40%;background:url('./imgs/index/bg_ganjuzhanbi.png') center no-repeat;background-size: 100% 100%;">
-                                    <div class="title-bg right-title">柑橘收入占比</div>
+                                    style="height: 34.3%;background:url('./imgs/index/bg_ganjuzhanbi.png') center no-repeat;background-size: 100% 100%;">
+                                    <div class="title-bg right-title">果品交易</div>
                                     <div class="height-title">
-                                        <img style="width:100%" src="./imgs/pic2.png" alt="">
+                                        <div class="pie-chart">
+                                            <div class="bg"></div>
+                                            <div ref="pieChart" class="income-echars"></div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div
-                                    style="height:60%;background:url('./imgs/index/bg_qixiangshuju.png') center no-repeat;background-size: 100% 100%;">
+                                <div style="height:65.7%;background:url('./imgs/index/bg_qixiangshuju.png') center no-repeat;background-size: 100% 100%;">
 
                                     <div class="title-bg right-title">气象数据</div>
                                     <div class="height-title">
+                                        <div class="detection-title">
+                                            <p style="height:36px;"><span v-if="analysisBases">【{{analysisBases}}】</span></p>
+                                            <p class="detection-time" v-html="detectionTime"></p>
+                                        </div>
                                         <!--swiper-->
                                         <div class="swiper-container detection-swiper-container">
                                             <div class="swiper-wrapper">
-                                                <ul class="swiper-slide">
+                                                <ul class="swiper-slide" v-for="item in analysisData">
                                                     <li>
-                                                        <p class="detection-val">26<span class="unit">℃</span></p>
-                                                        <p class="detection-name icon-air">空气温度</p>
+                                                        <p class="detection-val">{{item.airHumidity}}<span class="unit">%</span></p>
+                                                        <p class="detection-name icon-airhumidity">大气湿度</p>
                                                     </li>
                                                     <li>
-                                                        <p class="detection-val">46<span class="unit">%</span></p>
-                                                        <p class="detection-name icon-airhumidity">空气湿度</p>
+                                                        <p class="detection-val">{{item.airPressure}}<span class="unit">kpa</span></p>
+                                                        <p class="detection-name icon-atmosphericpressure">大气压力</p>
                                                     </li>
                                                     <li>
-                                                        <p class="detection-val">645<span class="unit">ppm</span></p>
+                                                        <p class="detection-val">{{item.airTemperature}}<span class="unit">℃</span></p>
+                                                        <p class="detection-name icon-air">大气温度</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="detection-val">{{item.co2value}}<span class="unit">ppm</span></p>
                                                         <p class="detection-name icon-co2">CO2浓度</p>
                                                     </li>
                                                     <li>
-                                                        <p class="detection-val">18<span class="unit">℃</span></p>
-                                                        <p class="detection-name icon-soiltemperature">土壤温度</p>
-                                                    </li>
-                                                    <li>
-                                                        <p class="detection-val">51<span class="unit">%</span></p>
-                                                        <p class="detection-name icon-soilhumidity">土壤温度</p>
-                                                    </li>
-                                                    <li>
-                                                        <p class="detection-val">33<span class="unit">us/cm</span></p>
-                                                        <p class="detection-name icon-es">土壤ES值</p>
-                                                    </li>
-                                                    <li>
-                                                        <p class="detection-val">10.0<span class="unit">mm</span></p>
-                                                        <p class="detection-name icon-rainfall">降雨量</p>
-                                                    </li>
-                                                    <li>
-                                                        <p class="detection-val">6.9<span class="unit"></span></p>
-                                                        <p class="detection-name icon-ph">土壤PH值</p>
-                                                    </li>
-                                                    <li>
-                                                        <p class="detection-val">557<span class="unit">lux</span></p>
+                                                        <p class="detection-val">{{item.illIntensity}}<span class="unit">lux</span></p>
                                                         <p class="detection-name icon-lightintensity">光照强度</p>
                                                     </li>
                                                     <li>
-                                                        <p class="detection-val">33<span class="unit">us/cm</span></p>
-                                                        <p class="detection-name icon-windspeed">风速</p>
+                                                        <p class="detection-val">{{item.pm10value}}<span class="unit">ug/m3</span></p>
+                                                        <p class="detection-name icon-pm10">PM10</p>
                                                     </li>
                                                     <li>
-                                                        <p class="detection-val">10.0<span class="unit">mm</span></p>
-                                                        <p class="detection-name icon-directionofthewind">风向</p>
-                                                    </li>
-                                                    <li>
-                                                        <p class="detection-val">6.9<span class="unit"></span></p>
-                                                        <p class="detection-name icon-atmosphericpressure">大气压强</p>
-                                                    </li>
-                                                    <li>
-                                                        <p class="detection-val">557<span class="unit">lux</span></p>
+                                                        <p class="detection-val">{{item.pm25value}}<span class="unit">ug/m3</span></p>
                                                         <p class="detection-name icon-pm25">PM2.5</p>
                                                     </li>
                                                     <li>
-                                                        <p class="detection-val">33<span class="unit">us/cm</span></p>
-                                                        <p class="detection-name icon-pm10">PM10</p>
-                                                    </li>
-                                                </ul>
-                                                <ul class="swiper-slide">
-                                                    <li>
-                                                        <p class="detection-val">26<span class="unit">℃</span></p>
-                                                        <p class="detection-name icon-air">空气温度</p>
-                                                    </li>
-                                                    <li>
-                                                        <p class="detection-val">46<span class="unit">%</span></p>
-                                                        <p class="detection-name icon-airhumidity">空气湿度</p>
-                                                    </li>
-                                                    <li>
-                                                        <p class="detection-val">645<span class="unit">ppm</span></p>
-                                                        <p class="detection-name icon-co2">CO2浓度</p>
-                                                    </li>
-                                                    <li>
-                                                        <p class="detection-val">18<span class="unit">℃</span></p>
-                                                        <p class="detection-name icon-soiltemperature">土壤温度</p>
-                                                    </li>
-                                                    <li>
-                                                        <p class="detection-val">51<span class="unit">%</span></p>
-                                                        <p class="detection-name icon-soilhumidity">土壤温度</p>
-                                                    </li>
-                                                    <li>
-                                                        <p class="detection-val">33<span class="unit">us/cm</span></p>
-                                                        <p class="detection-name icon-es">土壤ES值</p>
-                                                    </li>
-                                                    <li>
-                                                        <p class="detection-val">10.0<span class="unit">mm</span></p>
+                                                        <p class="detection-val">{{item.rainfall}}<span class="unit">mm</span></p>
                                                         <p class="detection-name icon-rainfall">降雨量</p>
                                                     </li>
                                                     <li>
-                                                        <p class="detection-val">6.9<span class="unit"></span></p>
+                                                        <p class="detection-val">{{item.soilEc}}<span class="unit">us/cm</span></p>
+                                                        <p class="detection-name icon-es">土壤EC值</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="detection-val">{{item.soilHumidity}}<span class="unit">%</span></p>
+                                                        <p class="detection-name icon-soilhumidity">土壤湿度</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="detection-val">{{item.soilPh}}<span class="unit"></span></p>
                                                         <p class="detection-name icon-ph">土壤PH值</p>
                                                     </li>
                                                     <li>
-                                                        <p class="detection-val">557<span class="unit">lux</span></p>
-                                                        <p class="detection-name icon-lightintensity">光照强度</p>
+                                                        <p class="detection-val">{{item.soilTemperature}}<span class="unit">℃</span></p>
+                                                        <p class="detection-name icon-soiltemperature">土壤温度</p>
                                                     </li>
                                                     <li>
-                                                        <p class="detection-val">33<span class="unit">us/cm</span></p>
-                                                        <p class="detection-name icon-windspeed">风速</p>
+                                                        <p class="detection-val">{{item.soils}}<span class="unit">ppm</span></p>
+                                                        <p class="detection-name icon-soils">土壤盐分</p>
                                                     </li>
                                                     <li>
-                                                        <p class="detection-val">10.0<span class="unit">mm</span></p>
+                                                        <p class="detection-val">{{item.windDirection}}<span class="unit">度</span></p>
                                                         <p class="detection-name icon-directionofthewind">风向</p>
                                                     </li>
                                                     <li>
-                                                        <p class="detection-val">6.9<span class="unit"></span></p>
-                                                        <p class="detection-name icon-atmosphericpressure">大气压强</p>
-                                                    </li>
-                                                    <li>
-                                                        <p class="detection-val">557<span class="unit">lux</span></p>
-                                                        <p class="detection-name icon-pm25">PM2.5</p>
-                                                    </li>
-                                                    <li>
-                                                        <p class="detection-val">33<span class="unit">us/cm</span></p>
-                                                        <p class="detection-name icon-pm10">PM10</p>
+                                                        <p class="detection-val">{{item.windSpeed}}<span class="unit">m/s</span></p>
+                                                        <p class="detection-name icon-windspeed">风速</p>
                                                     </li>
                                                 </ul>
+
                                             </div>
                                             <!-- Add Pagination -->
                                             <div class="swiper-pagination"></div>
@@ -265,11 +252,13 @@
     </div>
 
     <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
-    <!-- <script type="text/javascript" src="js/index.js"></script> -->
     <script src="js/echarts-3.8.5.min.js"></script>
     <script type="text/javascript" src="js/swiper/swiper-bundle.min.js"></script>
     <script type="text/javascript"
         src="https://webapi.amap.com/maps?v=1.4.15&key=b37218900009b3618f05afc6210f4dca"></script>
+    <script src="https://open.ys7.com/sdk/js/1.4/ezuikit.js"></script>
+
+
     <script type="text/javascript">
         new Vue({
             el: '#container-y',
@@ -287,26 +276,239 @@
                     moneyNumberData: [],
                     map: null,
                     markers: [],
-                    plantInfo: {}
+                    plantInfo: {},
+                    introName:'',
+                    screenWidth:document.body.clientWidth,
+                    screenHeight:document.body.clientHeight,
+                    options:[],
+                    oneId:'',
+                    value:'',
+                    address:'',
+                    player:'',
+                    analysisData:[],//气象数据
+                    analysisBases:'',
+                    detectionTime:'',
+                    loading:true,
+                    nprogressNumber:0,
+                    Interval:null,
                 }
             },
             created() {
-                this.getBaseInfo()
-                this.baseDetailInfo()
+                let Hheight=$('.header').height()+9
+                $('.wrapper').css('top',Hheight)
+                this.baseDetailInfo();
+                //监控数据
+                this.getBaseWithMonitorVideos();
+
+               //折线图
+                this.largescreenindexAnalyze();
+
+                //收入占比饼图
+                this.initPieChart();
             },
             mounted() {
 
-                let dataLeft = [22, 21, 24, 23.5, 25, 26, 26.5, 25.5, 24, 24.5,22, 23]
-                let dataRight = [60, 55, 67, 68, 70, 76, 75,72, 68, 65, 69,66]
-                let dataX = ['11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00']
-                this._drawPolygonal(dataLeft, dataRight, dataX)
-                this.initSwiper()
+                this.initData();
             },
             methods: {
+                initData(){
+                    $.when($.get(this.baseUrl + '/api/kanban/org/getRecentlyRecords', { size:'',orgId: this.orgid }), $.get(this.baseUrl + '/api/largescreenindex/getBaseInfo', { orgid: this.orgid })).done(function(result1,result2){
+                        //result1 气象数据
+                        //result2 公司信息
+
+
+
+
+                        this.analysisData=result1[0].data;//数据
+                        this.$nextTick(function(){
+                            this.initSwiper();
+                        })
+                        let introName=result2[0].data.introName.replace(/<\/?.+?>/g,"");
+
+
+                        this.enterpriseInfo = result2[0].data;//公司简介
+                        if(this.screenWidth>1900){
+                            this.introName=introName.slice(0,52)+'...';
+                        }else if(this.screenWidth>1800){
+                            this.introName=introName.slice(0,44)+'...';
+                        }else if(this.screenWidth>1630){
+                            this.introName=introName.slice(0,40)+'...';
+                        }else if(this.screenWidth>1530){
+                            this.introName=introName.slice(0,36)+'...';
+                        }else if(this.screenWidth>1430){
+                            this.introName=introName.slice(0,34)+'...';
+                        }else if(this.screenWidth>1200){
+                            this.introName=introName.slice(0,28)+'...';
+                        }else{
+                            this.introName=introName.slice(0,28)+'...';
+                        }
+
+
+                        if (this.enterpriseInfo.introImg != null) {
+                            this.introImg = this.enterpriseInfo.introImg.split(',')[0]
+                        }
+
+
+                        this.loading=false;
+
+
+                    }.bind(this));
+
+                },
+                initPieChart(){
+
+                    this.$nextTick(()=>{
+                        let myChart = echarts.init(this.$refs.pieChart)
+                        let option = {
+                            tooltip: {
+                                trigger: 'item',
+                                formatter: '{b}: {d}%'
+                            },
+                            color:['#3ED09B','#03d7da'],
+                            series: [
+                                {
+                                    name: '访问来源',
+                                    type: 'pie',
+                                    radius: ['40%', '55%'],
+                                    label: {
+                                        formatter: '{b}: {d}%',
+                                    },
+                                    data: [
+                                        {value: 25, name: '其他占比25%'},
+                                        {value: 75, name: '大白李占比75%'}
+                                    ]
+                                }
+                            ]
+                        };
+                        myChart.setOption(option);
+                    })
+
+                },
+
+                largescreenindexAnalyze(){//折线图
+
+                    let airHumidity=[];//空气湿度
+                    let airTemperature=[];//空气温度
+                    let soilHumidity=[];//土壤湿度
+                    let soilTemperature=[];//土壤温度
+                    let timeData=[]
+
+                    $.get(this.baseUrl + '/api/largescreenindex/baseAnalyze', { Type:0,orgId: this.orgid }, function (result) {
+                        let analysisData=result.data;
+                        console.log('折线：',analysisData)
+                        analysisData.map((item,index)=>{
+                            airHumidity.push(item.airHumidity);//空气湿度
+                            airTemperature.push(item.airTemperature);//空气温度
+                            soilHumidity.push(item.soilHumidity);//土壤湿度
+                            soilTemperature.push(item.soilTemperature);//土壤温度
+                            let time=item.monitorTimeStr+':00';
+                            timeData.push(time)
+                        })
+                        let that=this;
+                        setTimeout(function(){
+                            that._drawPolygonal(airTemperature, soilHumidity, timeData)
+                        },500)
+
+
+                    }.bind(this));
+
+                },
+                getBaseWithMonitorVideos(){//监控
+                    $.get(this.baseUrl + '/api/billboardIndexs/getBaseWithMonitorVideos', { orgId: this.orgid }, function (result) {
+                        this.oneId=result.data[0].id;
+                        this.$nextTick(()=>{
+                            result.data.map((item,index)=>{
+
+                                let obj={
+                                    value: item.id,
+                                    label: item.name,
+                                    children:[]
+                                }
+                                if(item.monitorVideoChannelVOS.length!=0){
+                                    item.monitorVideoChannelVOS.map((childerItem,childerIndex)=>{
+                                        console.log('childerItem:',childerItem)
+                                        this.getMonitorVideosByBaseId(childerItem.channelNo,childerItem.monitorVideoCode,childerIndex,childerItem.channelName)
+
+                                    })
+                                }
+                                this.options.push(obj);
+                            })
+
+                        })
+
+                    }.bind(this));
+                },
+                getMonitorVideosByBaseId(channelNo,monitorVideoCode,i,name){
+
+                    let data={
+                        channelNo:channelNo,
+                        deviceSerial:monitorVideoCode,
+                        orgId:this.orgid
+                    }
+                    $.get(this.baseUrl + '/api/billboardIndexs/getLiveAddresByDevice', data , function (result) {
+
+                        if(result.data[0].hls==null){
+                            return;
+                        }
+                        let obj = {
+                            // label: result.data[0].deviceName,
+                            label:name,
+                            value: result.data[0].hls,
+                        };
+                        this.options[i].children.push(obj);
+
+                        if(i==0){
+                            this.$nextTick(()=>{
+                                this.value=[this.options[0].value,this.options[0].children[0].value];
+                                this.oneId=this.value[0];
+
+
+
+                                this.selectAddress(this.value);
+
+                            })
+
+                        }
+                    }.bind(this));
+                },
+                selectAddress(datas){
+
+                    if (datas.length != 0) {
+                        this.address = datas[1];
+                        this.$nextTick(() => {
+                            if(this.oneId!=datas[0]){
+                                this.setInfoWindow(datas[0])
+                            }
+                            this.player = new EZUIPlayer("myVideo");
+
+                        });
+
+                    }
+                },
+                setInfoWindow(baseId){
+                    let baseInfo=this.plantInfo.baseInfo;
+                    baseInfo.map(item=>{
+                        if(item.baseId==baseId){
+                            console.log('item:',item);
+                            let baseName=item.name
+                            let map_addr=JSON.parse(item.map_addr);
+                            let lnglat=[map_addr.path[0].lng,map_addr.path[0].lat]
+                            console.log('lnglat:',map_addr.path[0].lng,map_addr.path[0].lat)
+                            var infoWindow = new AMap.InfoWindow({
+                                position: lnglat,
+                                offset: new AMap.Pixel(-3, -10),
+                                content: '<div style="color:#c3c3c3">'+baseName+'</div>'
+                            });
+                            infoWindow.open(this.map);
+                        }
+                    })
+
+                },
                 toCompany() {
                     window.location.href = 'company.html'
                 },
                 initSwiper() {
+                    let that=this;
                     new Swiper('.detection-swiper-container', {
                         loop: true,
                         autoplay: {
@@ -315,26 +517,46 @@
                         spaceBetween: 1,
                         pagination: {
                             el: '.swiper-pagination',
-                            clickable: true,
-                        }
+                        },
+                        on: {
+                            slideChangeTransitionStart: function(){
+                                let index=0;
+                                if(this.activeIndex>that.analysisData.length){
+                                    index=0;
+                                }else{
+                                    index=this.activeIndex-1;
+                                }
+                                let time=that.analysisData[index].monitorTime;
+                                that.analysisBases=that.analysisData[index].baseName;
+
+                                let timeArr=time.split(' ')[0]+'  '+time.split(' ')[1];
+                                that.detectionTime=timeArr;
+                            },
+                        },
                     });
                 },
-                getBaseInfo() {//公司信息
-                    $.get(this.baseUrl + '/api/largescreenindex/getBaseInfo', { orgid: this.orgid }, function (result) {
-                        console.info(result)
-                        this.enterpriseInfo = result.data;//公司简介
 
-                        if (this.enterpriseInfo.introImg != null) {
-                            this.introImg = this.enterpriseInfo.introImg.split(',')[0]
-                        }
-                    }.bind(this));
-                },
                 baseDetailInfo() {//地图数据
                     $.get(this.baseUrl + '/api/largescreenindex/baseDetailInfo', { orgid: this.orgid }, function (result) {
-                        let totalAcreage = result.data.totalAcreage.toString();//种植信息-面积
-                        let totalYield = result.data.totalYield.toString();//种植信息-产量
-                        let totalProduction = result.data.totalProduction.toString();//种植信息-产值
+
                         this.plantInfo = result.data;//种植信息
+
+
+                        let totalAcreageNumber=result.data.totalAcreage
+                        totalAcreageNumber=Math.round(totalAcreageNumber*100)/100;
+                        let totalAcreage=totalAcreageNumber.toString();
+
+
+                        let numbertotalYield=(result.data.totalAcreage*1.5);
+                        numbertotalYield=Math.round(numbertotalYield*100)/100;
+
+                        let numbertotalProduction=(result.data.totalAcreage*1.2);
+
+                        numbertotalProduction=Math.round(numbertotalProduction*100)/100;
+
+                        let totalYield=numbertotalYield.toString();
+                        let totalProduction=numbertotalProduction.toString();
+
                         this.getNumber(totalAcreage, 1);
                         this.getNumber(totalYield, 2);
                         this.getNumber(totalProduction, 3);
@@ -346,19 +568,36 @@
                 },
                 _drawPolygonal(dataLeft, dataRight, dataX) {
                     let _this = this;
-                    let polygonalChart = echarts.init(this.$refs.polygonal, null, { devicePixelRatio: 2.5 });
+
+                    let timeD=[];
+                    dataX.map(item=>{
+                        timeD.push(item.split(' ')[1])
+                    })
+
+                    let polygonalChart = echarts.init(document.getElementById('polygonal'), null, { devicePixelRatio: 2.5 });
                     var colors = ["#0089FF", "#B865DF"];
                     // 指定图表的配置项和数据
                     var option = {
                         color: colors,
                         tooltip: {
-                            trigger: "axis",
-                            axisPointer: {
-                                type: "cross",
-                                crossStyle: {
-                                    color: "#fff"
+                            trigger: 'axis',
+                            formatter:function(params){
+
+                                for(var i in params){
+                                    for(var k in timeD){
+                                        if(timeD[k]==params[i].name){
+                                            return dataX[k]+"<br/><span class='spotCategory temperature'></span>温度:"+dataLeft[k]+"<br><span class='spotCategory humidity'></span>湿度:"+dataRight[k]
+                                        }
+                                    }
                                 }
-                            }
+                            },
+
+                        },
+                        grid: {
+                            left: '3%',
+                            right: '4%',
+                            bottom: '3%',
+                            containLabel: true
                         },
                         legend: {
                             show: true,
@@ -371,7 +610,7 @@
                         xAxis: [
                             {
                                 type: "category",
-                                data: dataX,
+                                data: timeD,
                                 boundaryGap: false,
                                 axisLine: {
                                     show: false,
@@ -421,7 +660,7 @@
                             }
                         ],
                         series: [
-                            
+
                             {
                                 name: "大气温度",
                                 type: "line",
@@ -458,17 +697,19 @@
                                         }
                                     }
                                 },
-                                    areaStyle: {
-                                        normal: {
-                                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                                                { offset: 0.5, color: '#5b7fc8' },
-                                                { offset: 1, color: '#92a8d3' }
-                                            ])
-                                        }
-                                    } // 阴影渲染颜色渐变样式
-                                }
+                                areaStyle: {
+                                    normal: {
+                                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                            { offset: 0.5, color: '#5b7fc8' },
+                                            { offset: 1, color: '#92a8d3' }
+                                        ])
+                                    }
+                                } // 阴影渲染颜色渐变样式
+                            }
                         ]
                     };
+
+
                     polygonalChart.setOption(option);
                 },
                 getNumber(number, index) {
@@ -565,7 +806,8 @@
                             let marker = new AMap.Marker({
                                 position: new AMap.LngLat(map_addr.path[0].lng, map_addr.path[0].lat),
                                 offset: new AMap.Pixel(-10, -10),
-                                content: '<div style="width:20px;height:28px"><img src="https://webapi.amap.com/theme/v1.3/markers/n/mark_bs.png"/></div>',
+                                // content: '<div style="width:20px;height:28px"><img src="https://webapi.amap.com/theme/v1.3/markers/n/mark_bs.png"/></div>',
+                                content: '<div class="point point2"></div>',
                             });
                             that.markers.push(marker);
                             // that.map.add(marker);
@@ -574,7 +816,10 @@
                                 window.location.href = 'land.html?baseId=' + item.baseId
                             })
                         })
+
                     });
+                    this.setInfoWindow(this.oneId)
+
                 },
             }
         })

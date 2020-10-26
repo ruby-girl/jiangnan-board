@@ -16,11 +16,15 @@ ul {
     height: 100%;
     overflow: hidden;
 }
+.detection-title p{
+    margin:0 0;
+}
 
 .detection-swiper-container .swiper-slide li {
     width: 25%;
     float: left;
-    margin: 16px 0;
+    margin: 0 0 14px 0;
+    text-align: center;
 }
 
 .detection-swiper-container .swiper-slide .detection-val {
@@ -29,17 +33,22 @@ ul {
     background-image: url("../imgs/pic1.png");
     background-position: center bottom;
     background-repeat: no-repeat;
-    height: 62px;
+    height: 60px;
     text-align: center;
 }
 
 .detection-swiper-container .swiper-slide .detection-name {
-    padding-left: 28px;
+
+    padding-left: 26px;
     background-position: left center;
     background-repeat: no-repeat;
     height: 21px;
     line-height: 21px;
-    margin-top: 10px;
+    margin: 8px 0 0 0;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .detection-swiper-container .swiper-slide .unit {
@@ -87,7 +96,7 @@ ul {
 
 .company-img {
     width: 100%;
-    height: 150px;
+    height: 53.5%;
 }
 
 .drug-list {
@@ -117,19 +126,7 @@ ul {
     top: 5px;
 }
 
-.monitor-select {
-    width: 100%;
-    height: 36px;
-    padding: 0 7px;
-    background: #0F2345;
-    border: 1px solid #00B0FF;
-    border-radius: 6px;
-    color: #00FBFF;
-    text-align: right;
-    margin-top: 6px;
-    box-shadow: inset 0 0 7px 0px rgba(18, 140, 254, 1);
-    outline: #0F2345;
-}
+
 
 .video-height {
     margin-top: 15px;
@@ -163,4 +160,201 @@ ul {
 
 #cityMap {
     height: 100%;
+}
+.intro-col {
+    overflow: hidden;
+    margin:13px 0 0 0;
+}
+.intro-col span:first-child{
+
+     float: left;
+     width:100px;
+ }
+.intro-col span:nth-child(2){
+     display: block;
+     margin-left: 100px;
+ }
+.intro-text{
+    height:42px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    letter-spacing: 0.5px;
+}
+.intro-info{
+    margin-top:13px;
+    line-height:21px;
+    position: relative;
+}
+/*.intro-info a{*/
+/*    color:#00FBFF*/
+/*}*/
+.intro-detail{
+    position: absolute;
+    right:5px;
+    bottom:0;
+    color:#53FEC0;
+}
+.point,.point::before,.point::after{position: absolute;width: 12px; height: 12px; border-radius: 50%;content:''; }
+.point::before{animation: scale 1.5s infinite; }
+.point::after{animation: scale2 1.5s infinite; }
+@keyframes scale{0%{ transform: scale(1); opacity:.9}100%{ transform: scale(3); opacity: 0;}}
+@keyframes scale2{0%{ transform: scale(1);opacity:.9;}100%{ transform: scale(6);opacity:0;}}
+.point2,.point2::before,.point2::after{
+    /* 设置颜色 */
+    background-color: rgba(0, 221, 254, .9);
+}
+.detection-title{
+    text-align: left;
+    position: relative;
+    font-size:16px;
+    line-height: 32px;
+    font-weight:bold;
+}
+.detection-time{
+    position: absolute;
+    left:50%;
+    top:0;
+    font-size:12px;
+    line-height: 32px;
+    font-weight:400;
+}
+.detection-swiper-container{
+    margin-top:5px;
+    height:calc(100% - 60px)
+}
+.swiper-pagination-bullet{
+    background: #00fbff;
+    opacity: .3;
+    width: 8px;
+    height: 8px;
+}
+.swiper-pagination-bullet-active {
+    opacity: 1;
+}
+.icon-air{
+    background-image: url("../imgs/icon_airtemperature.png");
+}
+.icon-airhumidity{
+    background-image: url("../imgs/icon_airhumidity.png");
+}
+.icon-co2{
+    background-image: url("../imgs/icon_co2.png");
+}
+.icon-soiltemperature{
+    background-image: url("../imgs/icon_soiltemperature.png");
+}
+.icon-soils{
+    background-image: url("../imgs/icon_soils.png");
+}
+.icon-soilhumidity{
+    background-image: url("../imgs/icon_soilhumidity.png");
+}
+.icon-es{
+    background-image: url("../imgs/icon_ec.png");
+}
+.icon-rainfall{
+    background-image: url("../imgs/icon_rainfall.png");
+}
+.icon-ph{
+    background-image: url("../imgs/PH.png");
+}
+.icon-lightintensity{
+    background-image: url("../imgs/icon_lightintensity.png");
+}
+.icon-windspeed{
+    background-image: url("../imgs/icon_windspeed.png");
+}
+.icon-directionofthewind{
+    background-image: url("../imgs/icon_directionofthewind.png");
+}
+.icon-atmosphericpressure{
+    background-image: url("../imgs/icon_atmosphericpressure.png");
+}
+.icon-pm25{
+    background-image: url("../imgs/pm25.png");
+}
+.icon-pm10{
+    background-image: url("../imgs/pm10.png");
+}
+.detection-swiper-container .swiper-pagination{
+    bottom: 0px;
+}
+.pie-chart {
+    height: 108%;
+    margin-top:-6%;
+    /*margin: 4% auto 0 auto;*/
+    position: relative;
+    text-align: center;
+}
+.pie-chart .bg{
+    background-image: url(../imgs/index/pie.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: auto 100%;
+    height: 70%;
+    width: 100%;
+    position: absolute;
+    top: 15%;
+
+}
+.pie-chart .income-echars{
+    width:100%;
+    height:100%;
+
+}
+.polygonal{
+    margin-top:-15px;
+}
+
+
+
+@media screen and (max-width: 1450px) {
+    .drug-info li{
+        width: 170px;
+        height: 110px;
+    }
+}
+@media screen and (max-height: 965px) {
+    .intro-col{
+        margin: 10px 0 0 0;
+    }
+    .detection-swiper-container .swiper-slide .detection-val{
+        font-size:18px;
+    }
+    .detection-swiper-container .swiper-slide .detection-val{
+        height:56px;
+    }
+    .detection-swiper-container .swiper-slide .detection-name{
+        background-size: 19px auto;
+        padding-left: 22px;
+    }
+
+}
+@media screen and (max-height: 935px) {
+    .detection-swiper-container .swiper-slide .detection-val{
+        height:54px;
+    }
+    .detection-swiper-container .swiper-slide .detection-name{
+        background-size: 17px auto;
+        padding-left: 20px;
+    }
+}
+@media screen and (max-height: 910px) {
+    .detection-swiper-container .swiper-slide .detection-val{
+        height:50px;
+        background-size:70% auto;
+    }
+    .detection-swiper-container .swiper-slide .detection-name{
+        background-size: 17px auto;
+        padding-left: 20px;
+    }
+    .company-img{
+        height:53%;
+    }
+    .intro-info{
+        margin-top:10px
+    }
 }
