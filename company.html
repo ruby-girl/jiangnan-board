@@ -214,7 +214,7 @@
                                             style="width: 50%;background-image:url('./imgs/company/bg_gongsijieshao.png');background-size: 100% 100%;padding: 0 10px 10px 0;">
                                             <div class="title-bg">公司介绍</div>
                                                 <div class="video-height" style="padding: 0 10px;">
-                                                    <video class="myVideo" autoplay="autoplay" width="100%" ref="myPlayer" loop="true" controls
+                                                    <video class="myVideo" width="100%" ref="myPlayer" controls
                                                         :src="baseInfo.introVideoCom"></video>
                                                 </div>
                                         </div>
@@ -222,7 +222,7 @@
                                             style="width: 50%;background-image:url('./imgs/company/bg-chanpinjieshao.png');background-size: 100% 100%;padding: 0 0 10px 0;">
                                             <div class="title-bg right-title">产品介绍</div>
                                             <div class="video-height" style="padding: 0 10px;">
-                                                <video class="myVideo" width="100%" ref="myPlayer" autoplay="autoplay" loop="true" controls
+                                                <video class="myVideo" width="100%" ref="myPlayer" controls
                                                        :src="baseInfo.introVideoProd"></video>
                                             </div>
                                         </div>
@@ -233,7 +233,10 @@
                             </div>
                             <!-- 公司信息 -->
                             <div class="company-bottom">
-                                <div>Copyright All Rights Reserved四川本源数科科技有限公司</div>
+                                <div>
+                                    Copyright All Rights Reserved
+                                    <a href="https://scbysk.com/home" target="_blank">四川本源数科科技有限公司</a>
+                                </div>
                                 <div>蜀ICP备20024953号-1</div>
                             </div>
                         </div>
@@ -282,7 +285,7 @@
     <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
     <script src="js/echarts-3.8.5.min.js"></script>
-    <script src="js/scroll2.js"></script>
+    <script src="js/jquery.kxbdMarquee.js"></script>
     <script type="text/javascript"
         src="https://webapi.amap.com/maps?v=1.4.15&key=b37218900009b3618f05afc6210f4dca"></script>
     <script type="text/javascript">
@@ -354,10 +357,12 @@
                             let contentHeight=$('.enterprise-content').height()*0.55-16;
                             let textHeight=$('.enterprise-text').height()
                             if(textHeight>contentHeight){
-                                console.log('滚');
-                                console.log($('#scroll4'))
-                                $('#scroll4').scroll({
-                                    speed: 60, //数值越大，速度越快
+
+                                $("#scroll4").kxbdMarquee({
+                                    direction:"up",
+                                    isEqual:false,
+                                    scrollAmount:1,
+                                    scrollDelay:110
                                 });
                             }
 
@@ -367,8 +372,11 @@
                         if (this.baseInfo.introImg != null) {
                             this.introImg = this.baseInfo.introImg.split(',')
                         }
-                        $('#scroll3').scroll({
-                            speed: 60, //数值越大，速度越快
+                        $("#scroll3").kxbdMarquee({
+                            direction:"up",
+                            isEqual:false,
+                            scrollAmount:1,
+                            scrollDelay:80
                         });
 
                     }.bind(this));

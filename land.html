@@ -197,7 +197,10 @@
                             </div>
                             <!-- 公司信息 -->
                             <div class="company-bottom">
-                                <div>Copyright All Rights Reserved四川本源数科科技有限公司</div>
+                                <div>
+                                    Copyright All Rights Reserved
+                                    <a href="https://scbysk.com/home" target="_blank">四川本源数科科技有限公司</a>
+                                </div>
                                 <div>蜀ICP备20024953号-1</div>
                             </div>
                         </div>
@@ -455,8 +458,6 @@
                                 this.options.push(obj);
                             }
                         })
-
-
                         let arr=result.data.filter(item=>{
                             return item.id==this.baseId
                         })
@@ -468,6 +469,10 @@
                     }.bind(this));
                 },
                 getAddress(channelNo,monitorVideoCode){
+
+                    console.log(channelNo)
+                    console.log(monitorVideoCode)
+
                     let data={
                         channelNo:channelNo,
                         deviceSerial:monitorVideoCode,
@@ -475,8 +480,6 @@
                     }
                     $.get(this.baseUrl + 'api/billboardIndexs/getLiveAddresByDevice',data,function(result){
                         this.monitorVideo=result.data[0].hls;
-                        console.log('myVideo:',result)
-
                         this.$nextTick(() => {
                             this.player = new EZUIPlayer("myVideo");
                         });
@@ -673,9 +676,6 @@
 
                         if (this.baseInfo.staff.length > 0) {
                             this.hasStaff = true
-
-
-
                             $('#scroll').myScroll({
                                 speed: 30, //数值越大，速度越慢
                                 rowHeight: 30 //li的高度

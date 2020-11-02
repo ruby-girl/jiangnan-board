@@ -141,7 +141,10 @@
                             </div>
                             <!-- 公司信息 -->
                             <div class="company-bottom">
-                                <div>Copyright All Rights Reserved四川本源数科科技有限公司</div>
+                                <div>
+                                    Copyright All Rights Reserved
+                                    <a href="https://scbysk.com/home" target="_blank">四川本源数科科技有限公司</a>
+                                </div>
                                 <div>蜀ICP备20024953号-1</div>
                             </div>
                         </div>
@@ -374,8 +377,8 @@
                                         formatter: '{b}: {d}%',
                                     },
                                     data: [
-                                        {value: 25, name: '其他占比25%'},
-                                        {value: 75, name: '大白李占比75%'}
+                                        {value: 25, name: '其他:25%'},
+                                        {value: 75, name: '大白李:75%'}
                                     ]
                                 }
                             ]
@@ -418,27 +421,26 @@
                         this.oneId=result.data[0].id;
                         this.$nextTick(()=>{
                             result.data.map((item,index)=>{
-
                                 let obj={
                                     value: item.id,
                                     label: item.name,
                                     children:[]
                                 }
-                                if(item.monitorVideoChannelVOS.length!=0){
-                                    item.monitorVideoChannelVOS.map((childerItem,childerIndex)=>{
-                                        console.log('childerItem:',childerItem)
-                                        this.getMonitorVideosByBaseId(childerItem.channelNo,childerItem.monitorVideoCode,childerIndex,childerItem.channelName)
-
+                                item.monitorVideoChannelVOS.map((childerItem,childerIndex)=>{
+                                    obj.children.push({
+                                        label:childerItem.channelName,
+                                        value:childerItem.channelNo+'-'+childerItem.monitorVideoCode,
                                     })
-                                }
+                                    this.getMonitorVideosByBaseId(childerItem.channelNo,childerItem.monitorVideoCode,childerIndex,childerItem.channelName,index)
+
+                                })
                                 this.options.push(obj);
                             })
-
                         })
 
                     }.bind(this));
                 },
-                getMonitorVideosByBaseId(channelNo,monitorVideoCode,i,name){
+                getMonitorVideosByBaseId(channelNo,monitorVideoCode,i,name,Pindex){
 
                     let data={
                         channelNo:channelNo,
@@ -447,23 +449,13 @@
                     }
                     $.get(this.baseUrl + '/api/billboardIndexs/getLiveAddresByDevice', data , function (result) {
 
-                        if(result.data[0].hls==null){
-                            return;
-                        }
-                        let obj = {
-                            // label: result.data[0].deviceName,
-                            label:name,
-                            value: result.data[0].hls,
-                        };
-                        this.options[i].children.push(obj);
+                        this.options[Pindex].children[i].name=name;
+                        this.options[Pindex].children[i].value=result.data[0].hls;
 
                         if(i==0){
                             this.$nextTick(()=>{
                                 this.value=[this.options[0].value,this.options[0].children[0].value];
                                 this.oneId=this.value[0];
-
-
-
                                 this.selectAddress(this.value);
 
                             })
@@ -472,7 +464,6 @@
                     }.bind(this));
                 },
                 selectAddress(datas){
-
                     if (datas.length != 0) {
                         this.address = datas[1];
                         this.$nextTick(() => {
@@ -586,7 +577,7 @@
                                 for(var i in params){
                                     for(var k in timeD){
                                         if(timeD[k]==params[i].name){
-                                            return dataX[k]+"<br/><span class='spotCategory temperature'></span>温度:"+dataLeft[k]+"<br><span class='spotCategory humidity'></span>湿度:"+dataRight[k]
+                                            return dataX[k]+"<br/><span class='spotCategory humidity'></span>温度:"+dataLeft[k]+"<br><span class='spotCategory temperature'></span>湿度:"+dataRight[k]
                                         }
                                     }
                                 }

@@ -265,6 +265,12 @@ body.bg04 {background-image:url("../img/bg04.png");}
 	  padding-top: 15px;
 	  color:#D9EBE3;
 }
+.company-bottom a,
+.company-bottom a:focus,
+.company-bottom a:active{
+	  color:#D9EBE3;
+	  text-decoration: none;
+  }
 .no-data{
 	padding-top:20px;
 	text-align: center;
