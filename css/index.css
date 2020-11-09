@@ -140,7 +140,9 @@ ul {
     position: absolute;
     top: 6px;
 }
-
+.drug-info li .number-imgs{
+    margin-bottom: 7px;
+}
 .drug-info li {
     width: 217px;
     height: 120px;
@@ -148,7 +150,7 @@ ul {
     background-size: 100% 100%;
     margin: 0 5px;
     color: #E6FEF7;
-    font-size: 20px;
+    font-size: 18px;
     padding-top: 20px;
     display: inline-block;
 }
