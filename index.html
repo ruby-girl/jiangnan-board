@@ -409,7 +409,7 @@
                         })
                         let that=this;
                         setTimeout(function(){
-                            that._drawPolygonal(airTemperature, soilHumidity, timeData)
+                            that._drawPolygonal(soilTemperature, soilHumidity, timeData)
                         },500)
 
 
@@ -577,7 +577,7 @@
                                 for(var i in params){
                                     for(var k in timeD){
                                         if(timeD[k]==params[i].name){
-                                            return dataX[k]+"<br/><span class='spotCategory humidity'></span>温度:"+dataLeft[k]+"<br><span class='spotCategory temperature'></span>湿度:"+dataRight[k]
+                                            return dataX[k]+"<br/><span class='spotCategory humidity' style='background-color:#97f2f7'></span>温度:"+dataLeft[k]+"<br><span class='spotCategory temperature' style='backgrund-color:#5b7fc8'></span>湿度:"+dataRight[k]
                                         }
                                     }
                                 }
@@ -592,7 +592,7 @@
                         },
                         legend: {
                             show: true,
-                            data: ["大气温度", "土壤湿度"],
+                            data: ["土壤温度", "土壤湿度"],
                             y: 10,
                             textStyle: {
                                 color: "#fff"
@@ -653,11 +653,11 @@
                         series: [
 
                             {
-                                name: "大气温度",
+                                name: "土壤湿度",
                                 type: "line",
                                 barWidth: 20,
                                 data: dataLeft,
-                                yAxisIndex: 1,
+                                yAxisIndex: 0,
                                 itemStyle: {
                                     normal: {
                                         color: '#97f2f7', //改变折线点的颜色
@@ -674,12 +674,14 @@
                                         ])
                                     }
                                 }
-                            },{
-                                name: "土壤湿度",
+
+                            },
+                            {
+                                name: "土壤温度",
                                 type: "line",
                                 barWidth: 20,
                                 data: dataRight,
-                                yAxisIndex: 0,
+                                yAxisIndex: 1,
                                 itemStyle: {
                                     normal: {
                                         color: '#5b7fc8', //改变折线点的颜色
