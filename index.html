@@ -24,38 +24,72 @@
         <div class="container-fluid">
             <div class="row fill-h" id="container-y">
                 <div class="col-lg-3 fill-h">
-                    <div class="xpanel-wrapper xpanel-wrapper-2">
+                    <div class="xpanel-wrapper xpanel-wrapper-3">
                         <div class="xpanel">
                             <!-- 左侧 -->
-                            <div class="fill-h"
-                                style="background-image:url('./imgs/index/bg_pingtaijianjie.png');background-size: 100% 100%;cursor: pointer;"
-                                @click="toCompany">
-                                <div class="title-bg">地区介绍</div>
+                            <div class="fill-h" @click="toCompany">
+                                <div class="title-bg">●基地概括</div>
                                 <!-- 所有地区 -->
                                 <div class="height-title">
-                                    <div class="company-img"
-                                        :style="{backgroundImage:'url('+introImg+')',backgroundRepeat:'no-repeat',backgroundSize:'cover',backgroundPosition:'center'}">
-                                    </div>
-                                    <div class="wrap">
-                                        <div class="text">{{enterpriseInfo.introName}}</div>
+                                    <div
+                                        style="height:100%;width:100%;border-top-left-radius: 15px;border-top-right-radius: 15px;overflow: hidden;">
+                                        <div class="map" ref="map" id="cityMap"></div>
                                     </div>
                                 </div>
 
                             </div>
                         </div>
                     </div>
-                    <div class="xpanel-wrapper xpanel-wrapper-2">
+                    <div class="xpanel-wrapper xpanel-wrapper-3">
                         <div class="xpanel">
                             <!-- 左侧 -->
-                            <div class="fill-h"
-                                style="background-image:url('./imgs/index/bg_shishijiankong.png');background-size: 100% 100%;">
-                                <div class="title-bg">实时监控</div>
+                            <div class="fill-h">
+
+                                <div class="title-bg">●农产品溯源</div>
                                 <div class="height-title">
-                                    <select class="monitor-select right">
+                                    <!-- <select class="monitor-select right">
                                         <option>黄龙寨</option>
                                     </select>
                                     <video id="myVideo" class="video-height" width="100%" ref="myPlayer" controls
-                                        :src="monitorVideo"></video>
+                                        :src="monitorVideo"></video> -->
+                                    <div class="myscroll" id="scroll">
+                                        <ul>
+                                            <li class="display-flex justify-content-flex-justify align-items-center"
+                                                style="height: 45px;
+                                            line-height: 45px;" v-for="(item,m) in 6" :key="m+'c'">
+
+                                                <div class="basic-info-name">ZL156456456456</div>
+                                                <div class="basic-info-text">
+                                                    白李
+                                                </div>
+
+                                                <div class="index-btn">查看</div>
+                                            </li>
+                                            <!-- <div
+                                                style="width:100%;padding-top:10px;text-align:center;color:#fff;">暂无数据
+                                            </div> -->
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="xpanel-wrapper xpanel-wrapper-3">
+                        <div class="xpanel">
+                            <!-- 左侧 -->
+                            <div class="fill-h">
+                                <div class="title-bg">●平台介绍</div>
+                                <div class="height-title">
+                                    <div class="company-img"
+                                        :style="{backgroundImage:'url('+introImg+')',backgroundRepeat:'no-repeat',backgroundSize:'cover',backgroundPosition:'center'}">
+                                    </div>
+                                    <div style="font-size: 14px;line-height: 26px;">
+                                        <div>企业名称：{{enterpriseInfo.name}}</div>
+                                        <div>
+                                            基地位置：{{enterpriseInfo.provinceName}}{{enterpriseInfo.cityName}}{{enterpriseInfo.areaName}}{{enterpriseInfo.addr}}
+                                        </div>
+                                        <div>主要品种：XXXXXX</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -68,42 +102,40 @@
                             <div style="height:60%">
                                 <div class="drug-distribution"
                                     style="background-image:url('./imgs/index/bg_map.png');background-size: 100% 100%;padding:7px;overflow: hidden;position: relative;">
-                                    <ul class="drug-info oh">
-                                        <li>
-                                            <p class="number-imgs">
-                                                <span class="number" v-for="item in muNumberData"
-                                                    :class="'number'+item"></span>
-                                            </p>
-                                            <p>基地面积（亩)</p>
-                                        </li>
-                                        <li>
-                                            <p class="number-imgs">
-                                                <span class="number" v-for="item in tonNumberData"
-                                                    :class="'number'+item"></span>
-                                            </p>
-                                            <p>年产量（吨）</p>
-                                        </li>
-                                        <li>
-                                            <p class="number-imgs">
-                                                <span class="number" v-for="item in moneyNumberData"
-                                                    :class="'number'+item"></span>
-                                            </p>
-                                            <p>年产值（万元）</p>
-                                        </li>
-                                    </ul>
-                                    <div
-                                        style="height:100%;width:100%;border-top-left-radius: 15px;border-top-right-radius: 15px;overflow: hidden;">
-                                        <div class="map" ref="map" id="cityMap"></div>
-                                    </div>
 
+                                    <div style="height:100%;padding-left:10px">
+                                        <div class="display-flex flex-wrap" style="height:100%;width:100%;">
+                                            <div v-for="i in 9" style="height:32%;width:33% !important;padding-right:10px">
+                                                <video id="myVideo" class="video-height" width="100%" height="100%"
+                                                    ref="myPlayer" controls
+                                                    src="https://media.w3.org/2010/05/sintel/trailer.mp4"></video>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <img class="award" src="./imgs/anim.png" alt="">
+                                    <div class="jt-box left-jt">←</div>
+                                    <div class="jt-box right-jt">→</div>
                                 </div>
                             </div>
-                            <div
-                                style="height:40%;background-image:url('./imgs/index/bg_moisture.png');background-size: 100% 100%;position: relative;">
-                                <div class="title-bg">土壤墒情</div>
-                                <div class="height-title" ref="polygonal"></div>
-                                <img class="award-res" src="./imgs/anim.png" alt="">
+                            <div class="display-flex justify-content-flex-justify" style="height:40%;">
+                                <div
+                                    style="height:100%;width:49%;background-image:url('./new_imgs/bg1.png');background-size: 100% 100%;position: relative;">
+                                    <div class="title-bg-img">土壤墒情</div>
+                                    <div class="height-title" ref="polygonal"></div>
+                                    <img class="award-res" src="./imgs/anim.png" alt="">
+                                </div>
+                                <div
+                                    style="height:100%;width:49%;background-image:url('./new_imgs/bg1.png');background-size: 100% 100%;position: relative;">
+                                    <div class="display-flex justify-content-flex-justify align-items-flex-end">
+                                        <div class="title-bg-img">水肥一体系统</div>
+                                        <div class="title-two-right">查看水肥一体系统详情介绍</div>
+                                    </div>
+                                    <div style="padding:0 15px 0 10px;" class="video-height-y">
+                                        <video id="myVideo" width="100%" height="100%" ref="myPlayer" controls
+                                            src="https://media.w3.org/2010/05/sintel/trailer.mp4"></video>
+                                    </div>
+                                    <img class="award-res" src="./imgs/anim.png" alt="">
+                                </div>
                             </div>
                             <!-- 公司信息 -->
                             <div class="company-bottom">
@@ -118,17 +150,42 @@
                         <div class="xpanel">
                             <!-- 右一-->
                             <div class="fill-h">
-                                <div
-                                    style="height:40%;background:url('./imgs/index/bg_ganjuzhanbi.png') center no-repeat;background-size: 100% 100%;">
-                                    <div class="title-bg right-title">柑橘收入占比</div>
+                                <div style="height:40%;">
+                                    <div class="title-bg-xz right-title">●设备概括</div>
                                     <div class="height-title">
-                                        <img style="width:100%" src="./imgs/pic2.png" alt="">
+                                        <div class="display-flex justify-content-flex-justify" style="padding:15px 0">
+                                            <div class="display-flex">
+                                                <img src="./new_imgs/icon_shebei.png" alt="">
+                                                <div style="text-align: center;">
+                                                    <div>48</div>
+                                                    <div>设备数</div>
+                                                </div>
+                                            </div>
+                                            <div class="display-flex">
+                                                <img src="./new_imgs/icon_lixian.png" alt="">
+                                                <div style="text-align: center;">
+                                                    <div>48</div>
+                                                    <div>离线设备</div>
+                                                </div>
+                                            </div>
+                                            <div class="display-flex">
+                                                <img src="./new_imgs/icon_yujing.png" alt="">
+                                                <div style="text-align: center;">
+                                                    <div>48</div>
+                                                    <div>预警记录</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- tab页 -->
+                                        <div class="warning-title">
+                                            设备实时预警
+                                        </div>
                                     </div>
                                 </div>
-                                <div
-                                    style="height:60%;background:url('./imgs/index/bg_qixiangshuju.png') center no-repeat;background-size: 100% 100%;">
+                                <div style="height:60%;">
 
-                                    <div class="title-bg right-title">气象数据</div>
+                                    <div class="title-bg-xz right-title">●气象数据</div>
                                     <div class="height-title">
                                         <!--swiper-->
                                         <div class="swiper-container detection-swiper-container">
@@ -268,6 +325,7 @@
     <!-- <script type="text/javascript" src="js/index.js"></script> -->
     <script src="js/echarts-3.8.5.min.js"></script>
     <script type="text/javascript" src="js/swiper/swiper-bundle.min.js"></script>
+    <script src="js/scroll.js"></script>
     <script type="text/javascript"
         src="https://webapi.amap.com/maps?v=1.4.15&key=b37218900009b3618f05afc6210f4dca"></script>
     <script type="text/javascript">
@@ -296,13 +354,22 @@
             },
             mounted() {
 
-                let dataLeft = [22, 21, 24, 23.5, 25, 26, 26.5, 25.5, 24, 24.5,22, 23]
-                let dataRight = [60, 55, 67, 68, 70, 76, 75,72, 68, 65, 69,66]
+                let dataLeft = [22, 21, 24, 23.5, 25, 26, 26.5, 25.5, 24, 24.5, 22, 23]
+                let dataRight = [60, 55, 67, 68, 70, 76, 75, 72, 68, 65, 69, 66]
                 let dataX = ['11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00']
                 this._drawPolygonal(dataLeft, dataRight, dataX)
                 this.initSwiper()
+                // 农产品滚动
+                setTimeout(() => {
+                    $('#scroll').myScroll({
+                        speed: 30, //数值越大，速度越慢
+                        rowHeight: 30 //li的高度
+                    });
+                }, 2000);
+
             },
             methods: {
+
                 toCompany() {
                     window.location.href = 'company.html'
                 },
@@ -421,7 +488,7 @@
                             }
                         ],
                         series: [
-                            
+
                             {
                                 name: "大气温度",
                                 type: "line",
@@ -444,7 +511,7 @@
                                         ])
                                     }
                                 }
-                            },{
+                            }, {
                                 name: "土壤湿度",
                                 type: "line",
                                 barWidth: 20,
@@ -458,15 +525,15 @@
                                         }
                                     }
                                 },
-                                    areaStyle: {
-                                        normal: {
-                                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                                                { offset: 0.5, color: '#5b7fc8' },
-                                                { offset: 1, color: '#92a8d3' }
-                                            ])
-                                        }
-                                    } // 阴影渲染颜色渐变样式
-                                }
+                                areaStyle: {
+                                    normal: {
+                                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                            { offset: 0.5, color: '#5b7fc8' },
+                                            { offset: 1, color: '#92a8d3' }
+                                        ])
+                                    }
+                                } // 阴影渲染颜色渐变样式
+                            }
                         ]
                     };
                     polygonalChart.setOption(option);
@@ -512,7 +579,7 @@
                     that.map = new AMap.Map(this.$refs.map, {
                         resizeEnable: true,
                         center: [110.671525 - 0.20, 31.744449 - 0.17],
-                        zooms: [10, 18],
+                        zooms: [9, 18],
                         layers: [googleLayer, roadNetLayer], //设置图层
                         // viewMode:'3D',
                     });
@@ -537,7 +604,7 @@
                                 strokeColor: "#0AFBE2",
                                 strokeWeight: 1,
                                 fillColor: "#26374C",
-                                fillOpacity: 0.5
+                                fillOpacity: 0.8
                             });
                             polygon.setPath(pathArray);
                             that.map.add(polygon);
